@@ -23,7 +23,7 @@ Manual verification takes hours. The opportunity is gone before you act.
 - Position size scales with conviction (2-10% of portfolio)
 
 **RISK MANAGEMENT**
-- Sim mode by default — no real capital required
+- Sim mode by default - no real capital required
 - Full trade log with timestamps and prices as evidence
 
 ## Stack
