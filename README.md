@@ -1,5 +1,5 @@
 # Conviction Agent
-### Bitget AI Hackathon S1 — Track 1: Trading Agent
+### Bitget AI Hackathon S1. Track 1: Trading Agent
 
 An autonomous AI trading agent that solves a real problem for crypto creators:
 by the time you manually verify scattered signals, the market has already moved.
