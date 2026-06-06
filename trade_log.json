@@ -1,0 +1,13 @@
+[
+  {
+    "timestamp": "2026-06-06T19:23:39.176573+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0942,
+    "usd_amount": 400.0,
+    "quantity": 4246.284501,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM"
+  }
+]
