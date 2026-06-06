@@ -34,12 +34,12 @@ Manual verification takes hours. The opportunity is gone before you act.
 - Bitget REST API (price data + execution)
 
 ## Files
-- github_watcher.py — monitors protocol dev activity
-- governance_watcher.py — tracks governance proposals
-- ai_reasoning.py — Qwen AI signal interpretation
-- conviction.py — fallback scoring engine
-- executor.py — sim trade execution
-- app.py — Flask dashboard
+- github_watcher.py - monitors protocol dev activity
+- governance_watcher.py - tracks governance proposals
+- ai_reasoning.py - Qwen AI signal interpretation
+- conviction.py - fallback scoring engine
+- executor.py - sim trade execution
+- app.py - Flask dashboard
 
 ## Live Demo
 https://ae4fd2f2-8e36-4802-94f7-79777b91b732-00-uy0ygun8lsnl.kirk.replit.dev:5000
