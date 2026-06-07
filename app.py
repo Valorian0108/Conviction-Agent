@@ -85,7 +85,6 @@ def _bg_scan():
             if os.path.exists('trade_log.json'):
                 with open('trade_log.json') as f:
                     _cache['trades'] = list(reversed(json.load(f)))
-            from conviction import score
             from executor import run as _r
             _r(_cache['results'])
             if _cache['results']: send_alert(_cache['results'], _cache['summary'])
