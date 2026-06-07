@@ -42,7 +42,7 @@ Manual verification takes hours. The opportunity is gone before you act.
 - app.py - Flask dashboard
 
 ## Live Demo
-https://ae4fd2f2-8e36-4802-94f7-79777b91b732-00-uy0ygun8lsnl.kirk.replit.dev:5000
+https://conviction-agent.onrender.com
 
 ## Run Locally
 pip install flask requests python-dotenv
