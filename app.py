@@ -68,18 +68,37 @@ h2{color:#3fb950;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <div class="footer">signals: github dev activity + governance proposals | execution: bitget spot sim</div>
 </body></html>"""
 
+
+import threading, time
+
+_cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned'}
+
+def _bg_scan():
+    while True:
+        try:
+            gh = gscan()
+            gov = govscan()
+            ai = reason(gh, gov)
+            _cache['results'] = ai['trades'] if ai and ai['trades'] else score(gh, gov)
+            _cache['summary'] = ai['summary'] if ai else ''
+            if os.path.exists('trade_log.json'):
+                with open('trade_log.json') as f:
+                    _cache['trades'] = list(reversed(json.load(f)))
+            from conviction import score as _s
+            from executor import run as _r
+            _r(_cache['results'])
+            import datetime
+            _cache['ts'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+        except Exception as e:
+            print('Scan error: ' + str(e))
+        time.sleep(1800)
+
+_t = threading.Thread(target=_bg_scan, daemon=True)
+_t.start()
+
 @app.route('/')
 def index():
-    gh = gscan()
-    gov = govscan()
-    ai = reason(gh, gov)
-    results = ai['trades'] if ai and ai['trades'] else score(gh, gov)
-    summary = ai['summary'] if ai else ''
-    trades = []
-    if os.path.exists('trade_log.json'):
-        with open('trade_log.json') as f:
-            trades = list(reversed(json.load(f)))
-    return render_template_string(HTML, results=results, trades=trades, summary=summary)
+    return render_template_string(HTML, results=_cache['results'], trades=_cache['trades'], summary=_cache['summary'])
 
 
 @app.route('/health')
