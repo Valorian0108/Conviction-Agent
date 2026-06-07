@@ -4,8 +4,8 @@ from github_watcher import scan as gscan
 from governance_watcher import scan as govscan
 from conviction import score
 from notifier import send_alert
-from notifier import send_alert
 from ai_reasoning import reason
+from notifier import send_alert
 
 app = Flask(__name__)
 
@@ -87,7 +87,6 @@ def _bg_scan():
                 with open('trade_log.json') as f:
                     _cache['trades'] = list(reversed(json.load(f)))
             from conviction import score
-from notifier import send_alert
 from notifier import send_alert as _s
             from executor import run as _r
             _r(_cache['results'])
