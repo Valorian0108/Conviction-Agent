@@ -89,7 +89,6 @@ def _bg_scan():
             from executor import run as _r
             _r(_cache['results'])
             if _cache['results']: send_alert(_cache['results'], _cache['summary'])
-            if _cache['results']: send_alert(_cache['results'], _cache['summary'])
             import datetime
             _cache['ts'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
         except Exception as e:
