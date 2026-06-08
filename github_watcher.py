@@ -9,6 +9,12 @@ WATCHED_REPOS = [
     {"protocol": "Chainlink", "repo": "smartcontractkit/chainlink"},
     {"protocol": "Curve",     "repo": "curvefi/curve-contract"},
     {"protocol": "MakerDAO",  "repo": "makerdao/dss"},
+    {"protocol": "zkSync",     "repo": "matter-labs/zksync-era"},
+    {"protocol": "Scroll",     "repo": "scroll-tech/scroll"},
+    {"protocol": "Polygon",    "repo": "0xPolygon/polygon-edge"},
+    {"protocol": "EigenLayer", "repo": "Layr-Labs/eigenlayer-contracts"},
+    {"protocol": "Starknet",   "repo": "starkware-libs/cairo"},
+    {"protocol": "Base",       "repo": "base-org/node"},
 ]
 
 GITHUB_API = "https://api.github.com"
