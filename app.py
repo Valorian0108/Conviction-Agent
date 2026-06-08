@@ -162,7 +162,17 @@ def api_status():
 @app.route('/api/prices')
 def api_prices():
     from flask import jsonify
-    return jsonify(_cache.get('prices', {}))
+    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT']
+    prices = {}
+    for t in tokens:
+        try:
+            r = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
+                params={'symbol':t},timeout=5)
+            if r.status_code==200:
+                d=r.json().get('data',[])
+                if d: prices[t.replace('USDT','')]=d[0]['lastPr']
+        except: pass
+    return jsonify(prices or _cache.get('prices',{}))
 
 @app.route('/api/signals')
 def api_signals():
