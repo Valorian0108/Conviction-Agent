@@ -109,7 +109,10 @@ _cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned'}
 def _bg_scan():
     while True:
         try:
-            gh = gscan()
+            from github_watcher import WATCHED_REPOS, score_repo as _sr
+            all_gh = [_sr(r) for r in WATCHED_REPOS]
+            _cache['github_scores'] = [{'protocol': r['protocol'], 'score': r['score']} for r in all_gh]
+            gh = [r for r in all_gh if r['score'] > 0]
             gov = govscan()
             ai = reason(gh, gov)
             _cache['results'] = ai['trades'] if ai and ai['trades'] else score(gh, gov)
@@ -122,6 +125,17 @@ def _bg_scan():
             if _cache['results']: send_alert(_cache['results'], _cache['summary'])
             import datetime
             _cache['ts'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+            tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT','ARBUSDT']
+            prices = {}
+            for t in tokens:
+                try:
+                    pr = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
+                        params={'symbol':t}, timeout=5)
+                    if pr.status_code == 200:
+                        data = pr.json().get('data',[])
+                        if data: prices[t.replace('USDT','')] = data[0]['lastPr']
+                except: pass
+            _cache['prices'] = prices
         except Exception as e:
             print('Scan error: ' + str(e))
         time.sleep(1800)
@@ -143,25 +157,12 @@ def health():
 @app.route('/api/status')
 def api_status():
     from flask import jsonify
-    from github_watcher import WATCHED_REPOS, score_repo
-    gh_scores = [{'protocol': r['protocol'], 'score': score_repo(r)['score']} for r in WATCHED_REPOS]
-    return jsonify({'github': gh_scores, 'signals': len(_cache['results']), 'trades': len(_cache['trades'])})
+    return jsonify({'github': _cache.get('github_scores', []), 'signals': len(_cache['results']), 'trades': len(_cache['trades'])})
 
 @app.route('/api/prices')
 def api_prices():
     from flask import jsonify
-    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT','ARBUSDT']
-    prices = {}
-    for t in tokens:
-        try:
-            r = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
-                            params={'symbol': t}, timeout=5)
-            if r.status_code == 200:
-                data = r.json().get('data', [])
-                if data:
-                    prices[t.replace('USDT','')] = data[0]['lastPr']
-        except: pass
-    return jsonify(prices)
+    return jsonify(_cache.get('prices', {}))
 
 @app.route('/api/signals')
 def api_signals():
