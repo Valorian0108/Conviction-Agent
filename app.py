@@ -77,7 +77,7 @@ function updateData() {
   fetch('/api/status').then(r=>r.json()).then(d=>{
     let h = '';
     d.github.forEach(p=>{
-      let w = (p.score/3)*100;
+      let w = p.score>0?(p.score/3)*100:8;
       let c = p.score>=2?'#f0883e':p.score>=1?'#58a6ff':'#30363d';
       h += '<div style="display:flex;align-items:center;gap:12px;margin:6px 0">';
       h += '<span style="width:90px;color:#8b949e;font-size:.85em">'+p.protocol+'</span>';
