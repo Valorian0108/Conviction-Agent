@@ -67,6 +67,37 @@ h2{color:#3fb950;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <div class="card"><div class="empty">No trades yet.</div></div>
 {% endif %}
 
+
+<h2>Protocol Monitor</h2>
+<div id="protocols" class="card">Loading...</div>
+<h2>Live Prices</h2>
+<div id="prices" class="card">Loading...</div>
+<script>
+function updateData() {
+  fetch('/api/status').then(r=>r.json()).then(d=>{
+    let h = '';
+    d.github.forEach(p=>{
+      let w = (p.score/3)*100;
+      let c = p.score>=2?'#f0883e':p.score>=1?'#58a6ff':'#30363d';
+      h += '<div style="display:flex;align-items:center;gap:12px;margin:6px 0">';
+      h += '<span style="width:90px;color:#8b949e;font-size:.85em">'+p.protocol+'</span>';
+      h += '<div style="flex:1;background:#21262d;border-radius:4px;height:8px">';
+      h += '<div style="width:'+w+'%;background:'+c+';height:8px;border-radius:4px;transition:width .5s"></div></div>';
+      h += '<span style="color:'+c+';font-size:.8em;width:30px">'+p.score+'/3</span></div>';
+    });
+    document.getElementById('protocols').innerHTML = h||'Scanning...';
+  }).catch(()=>{});
+  fetch('/api/prices').then(r=>r.json()).then(d=>{
+    let h = '';
+    Object.entries(d).forEach(([k,v])=>{
+      h += '<span style="margin-right:20px;color:#58a6ff">'+k+' <b style="color:#e6edf3">$'+v+'</b></span>';
+    });
+    document.getElementById('prices').innerHTML = h;
+  }).catch(()=>{});
+}
+updateData();
+setInterval(updateData, 30000);
+</script>
 <div class="footer">signals: github dev activity + governance proposals | execution: bitget spot sim</div>
 </body></html>"""
 
@@ -107,6 +138,30 @@ def index():
 @app.route('/health')
 def health():
     return 'ok'
+
+
+@app.route('/api/status')
+def api_status():
+    from flask import jsonify
+    from github_watcher import WATCHED_REPOS, score_repo
+    gh_scores = [{'protocol': r['protocol'], 'score': score_repo(r)['score']} for r in WATCHED_REPOS]
+    return jsonify({'github': gh_scores, 'signals': len(_cache['results']), 'trades': len(_cache['trades'])})
+
+@app.route('/api/prices')
+def api_prices():
+    from flask import jsonify
+    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT','ARBUSDT']
+    prices = {}
+    for t in tokens:
+        try:
+            r = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
+                            params={'symbol': t}, timeout=5)
+            if r.status_code == 200:
+                data = r.json().get('data', [])
+                if data:
+                    prices[t.replace('USDT','')] = data[0]['lastPr']
+        except: pass
+    return jsonify(prices)
 
 @app.route('/api/signals')
 def api_signals():
