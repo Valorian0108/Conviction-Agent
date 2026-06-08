@@ -5,6 +5,7 @@ from governance_watcher import scan as govscan
 from conviction import score
 from ai_reasoning import reason
 from notifier import send_alert
+import bot
 
 app = Flask(__name__)
 
@@ -94,6 +95,7 @@ def _bg_scan():
             print('Scan error: ' + str(e))
         time.sleep(1800)
 
+bot.start()
 _t = threading.Thread(target=_bg_scan, daemon=True)
 _t.start()
 
