@@ -21,7 +21,7 @@ h1{color:#58a6ff;font-size:2em;display:inline}
 .sub{color:#8b949e;margin:8px 0 32px;font-size:.9em}
 .dot{display:inline-block;width:9px;height:9px;background:#3fb950;border-radius:50%;margin-right:8px;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-h2{color:#3fb950;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;letter-spacing:3px}
+h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;letter-spacing:3px;border-bottom:1px solid #30363d;padding-bottom:8px}
 .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin-bottom:12px}
 .token{font-size:1.6em;color:#f0883e;font-weight:bold}
 .badge{background:#1f6feb;padding:2px 10px;border-radius:10px;font-size:.8em;margin-left:8px}
@@ -97,7 +97,31 @@ h2{color:#3fb950;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <h2>Protocol Monitor</h2>
 <div id="protocols" class="card">Loading...</div>
 <h2>Live Prices</h2>
-<div id="prices" class="card">Loading...</div>
+<div id="prices" class="card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">Loading...</div>
+<script>
+function loadPrices() {
+  var tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT','STRKUSDT'];
+  var done = {}; var total = tokens.length;
+  tokens.forEach(function(t) {
+    fetch('https://api.bitget.com/api/v2/spot/market/tickers?symbol='+t)
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.data&&d.data[0]){done[t.replace('USDT','')]=parseFloat(d.data[0].lastPr).toFixed(4);}
+        if(Object.keys(done).length===total){
+          var h='';
+          Object.entries(done).forEach(function(e){
+            h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
+            h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
+            h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+e[1]+'</div></div>';
+          });
+          document.getElementById('prices').innerHTML=h;
+        }
+      }).catch(function(){done[t.replace('USDT','')]='N/A';});
+  });
+}
+loadPrices();
+setInterval(loadPrices, 30000);
+</script>
 <script>
 function updateData() {
   fetch('/api/status').then(r=>r.json()).then(d=>{
@@ -124,7 +148,7 @@ function updateData() {
 updateData();
 setInterval(updateData, 30000);
 </script>
-<div class="footer">signals: github dev activity + governance proposals | execution: bitget spot sim</div>
+<div class="footer">Conviction Agent monitors 13 crypto protocol GitHub repos and Snapshot governance proposals in real time. Qwen AI reasons about signals and executes sim trades on Bitget when conviction threshold is crossed. Built for Bitget AI Hackathon S1 - Track 1.</div>
 </body></html>"""
 
 
