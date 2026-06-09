@@ -148,7 +148,18 @@ function updateData() {
 updateData();
 setInterval(updateData, 30000);
 </script>
-<div class="footer">Conviction Agent monitors 13 crypto protocol GitHub repos and Snapshot governance proposals in real time. Qwen AI reasons about signals and executes sim trades on Bitget when conviction threshold is crossed. Built for Bitget AI Hackathon S1 - Track 1.</div>
+<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin:32px 0">
+  <div style="color:#58a6ff;font-size:.8em;letter-spacing:2px;margin-bottom:8px">ABOUT</div>
+  <div style="color:#e6edf3;font-size:.9em;line-height:1.6">
+    Conviction Agent is an autonomous AI trading agent. It monitors 13 crypto protocol GitHub repositories 
+    and Snapshot governance proposals for unusual activity. Qwen AI analyzes all signals and decides 
+    whether to trade. When conviction crosses the threshold, a sim trade executes on Bitget at live prices.
+  </div>
+  <div style="color:#8b949e;font-size:.8em;margin-top:8px">
+    Bitget AI Hackathon S1 &mdash; Track 1: Trading Agent &mdash; Signals: GitHub dev activity + governance &mdash; Execution: Bitget spot sim
+  </div>
+</div>
+<div class="footer"></div>
 </body></html>"""
 
 
