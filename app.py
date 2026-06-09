@@ -36,6 +36,32 @@ h2{color:#3fb950;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <body>
 <span class="dot"></span><h1>CONVICTION AGENT</h1>
 <div class="sub">Bitget AI Hackathon S1 - Track 1 - Refreshes every 5 min</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
+  <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
+    <div style="color:#8b949e;font-size:.75em">PORTFOLIO</div>
+    <div style="color:#f0883e;font-size:1.4em;font-weight:bold">$10,000</div>
+    <div style="color:#8b949e;font-size:.7em">SIM</div>
+  </div>
+  <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
+    <div style="color:#8b949e;font-size:.75em">TRADES</div>
+    <div style="color:#3fb950;font-size:1.4em;font-weight:bold" id="trade-count">{{ trades|length }}</div>
+    <div style="color:#8b949e;font-size:.7em">EXECUTED</div>
+  </div>
+  <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
+    <div style="color:#8b949e;font-size:.75em">SIGNALS</div>
+    <div style="color:#58a6ff;font-size:1.4em;font-weight:bold">{{ results|length }}</div>
+    <div style="color:#8b949e;font-size:.7em">ACTIVE NOW</div>
+  </div>
+  <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
+    <div style="color:#8b949e;font-size:.75em">PROTOCOLS</div>
+    <div style="color:#e6edf3;font-size:1.4em;font-weight:bold">13</div>
+    <div style="color:#8b949e;font-size:.7em">WATCHING</div>
+  </div>
+</div>
+<a href="https://t.me/conviction_agent_demi_bot" target="_blank" 
+   style="display:inline-block;background:#1f6feb;color:#fff;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:.85em;margin-bottom:16px">
+  ✈ Message the Bot on Telegram
+</a</div>
 
 {% if summary %}
 <div class="card" style="border-left:3px solid #1f6feb;margin-bottom:16px">
@@ -162,17 +188,20 @@ def api_status():
 @app.route('/api/prices')
 def api_prices():
     from flask import jsonify
-    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT']
+    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT','STRKUSDT']
+    cached = _cache.get('prices', {})
+    if cached:
+        return jsonify(cached)
     prices = {}
     for t in tokens:
         try:
             r = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
-                params={'symbol':t},timeout=5)
-            if r.status_code==200:
-                d=r.json().get('data',[])
-                if d: prices[t.replace('USDT','')]=d[0]['lastPr']
+                params={'symbol':t}, timeout=10)
+            if r.status_code == 200:
+                d = r.json().get('data', [])
+                if d: prices[t.replace('USDT','')] = d[0]['lastPr']
         except: pass
-    return jsonify(prices or _cache.get('prices',{}))
+    return jsonify(prices)
 
 @app.route('/api/signals')
 def api_signals():
