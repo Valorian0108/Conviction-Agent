@@ -18,15 +18,20 @@ def send(text):
             json={'chat_id': CHAT_ID, 'text': text}, timeout=10)
     except: pass
 
-def handle(text):
+def reply(chat_id, text):
+    try:
+        requests.post(BASE + '/sendMessage',
+            json={'chat_id': chat_id, 'text': text}, timeout=10)
+    except: pass
+
+def handle(chat_id, text):
     text = text.strip().lower()
 
-    if text == '/start' or text == '/start@conviction_agent_demi_bot':
-        send('Conviction Agent\n\nI monitor 13 crypto protocols for unusual developer activity and governance signals. Qwen AI analyzes everything and executes trades when conviction is high.\n\n/scan - scan all 13 protocols now\n/prices - live token prices\n/status - agent health check\n/trade OPUSDT - force a sim trade\n/threshold 2 - set conviction level\n/help - show all commands')
-        return
+    if text.startswith('/start'):
+        reply(chat_id, 'Conviction Agent\n\nI monitor 13 crypto protocols and alert when signals fire.\n\n/scan - scan all protocols now\n/prices - live token prices\n/status - agent health check\n/trade OPUSDT - force a sim trade\n/threshold 2 - set conviction level\n/help - show all commands')
 
-    if text == '/scan':
-        send('Scanning 13 protocols...')
+    elif text == '/scan':
+        reply(chat_id, 'Scanning 13 protocols...')
         gh = gscan()
         gov = govscan()
         ai = reason(gh, gov)
@@ -42,26 +47,26 @@ def handle(text):
             msg = 'Scan complete. No signals above threshold.\n\n'
         if summary:
             msg += 'Qwen AI: ' + summary[:300]
-        send(msg)
+        reply(chat_id, msg)
 
     elif text.startswith('/trade '):
         token = text.split(' ')[1].upper()
         if not token.endswith('USDT'):
             token = token + 'USDT'
-        send('Executing sim trade for ' + token + '...')
+        reply(chat_id, 'Executing sim trade for ' + token + '...')
         trade = execute_trade(token, 'BUY', 4, 2, 'Manual trade via Telegram')
         if trade:
-            send('Trade executed\n' + token + ' @ $' + str(trade['price']) + '\nAmount: $' + str(trade['usd_amount']))
+            reply(chat_id, 'Trade executed\n' + token + ' @ $' + str(trade['price']) + '\nAmount: $' + str(trade['usd_amount']))
         else:
-            send('Could not get price for ' + token)
+            reply(chat_id, 'Could not get price for ' + token)
 
     elif text.startswith('/threshold '):
         try:
             n = int(text.split(' ')[1])
             _threshold[0] = n
-            send('Conviction threshold set to ' + str(n) + '/5')
+            reply(chat_id, 'Conviction threshold set to ' + str(n) + '/5')
         except:
-            send('Usage: /threshold 2')
+            reply(chat_id, 'Usage: /threshold 2')
 
     elif text == '/status':
         from app import _cache
@@ -69,11 +74,11 @@ def handle(text):
         results = _cache.get('results', [])
         trades = _cache.get('trades', [])
         msg = 'STATUS\n\nLast scan: ' + ts + '\nActive signals: ' + str(len(results)) + '\nTrades logged: ' + str(len(trades))
-        send(msg)
+        reply(chat_id, msg)
 
     elif text == '/prices':
-        tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','STRKUSDT','ZKUSDT','ARBUSDT']
-        send('Fetching prices...')
+        tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT','STRKUSDT']
+        reply(chat_id, 'Fetching prices...')
         lines = ['LIVE PRICES\n']
         for t in tokens:
             try:
@@ -82,13 +87,12 @@ def handle(text):
                 if r.status_code == 200:
                     data = r.json().get('data', [])
                     if data:
-                        price = data[0]['lastPr']
-                        lines.append(t.replace('USDT','') + ': $' + price)
+                        lines.append(t.replace('USDT','') + ': $' + data[0]['lastPr'])
             except: pass
-        send('\n'.join(lines))
+        reply(chat_id, '\n'.join(lines))
 
     elif text == '/help':
-        send('/scan - scan all protocols now\n/trade STRKUSDT - force a sim trade\n/threshold 2 - set conviction level\n/status - agent health check\n/prices - live token prices')
+        reply(chat_id, '/scan - scan all protocols now\n/trade STRKUSDT - force a sim trade\n/threshold 2 - set conviction level\n/status - agent health check\n/prices - live token prices')
 
 def poll():
     while True:
@@ -100,9 +104,11 @@ def poll():
                 updates = r.json().get('result', [])
                 for u in updates:
                     _last_update_id[0] = u['update_id']
-                    msg = u.get('message', {}).get('text', '')
-                    if msg:
-                        handle(msg)
+                    msg = u.get('message', {})
+                    text = msg.get('text', '')
+                    chat_id = msg.get('chat', {}).get('id', CHAT_ID)
+                    if text:
+                        handle(chat_id, text)
         except: pass
         time.sleep(1)
 
