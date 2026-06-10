@@ -61,7 +61,8 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <a href="https://t.me/conviction_agent_demi_bot" target="_blank" 
    style="display:inline-block;background:#1f6feb;color:#fff;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:.85em;margin-bottom:16px">
   ✈ Message the Bot on Telegram
-</a</div>
+</a>
+</div>
 
 {% if summary %}
 <div class="card" style="border-left:3px solid #1f6feb;margin-bottom:16px">
