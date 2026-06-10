@@ -21,6 +21,10 @@ def send(text):
 def handle(text):
     text = text.strip().lower()
 
+    if text == '/start' or text == '/start@conviction_agent_demi_bot':
+        send('Conviction Agent\n\nI monitor 13 crypto protocols for unusual developer activity and governance signals. Qwen AI analyzes everything and executes trades when conviction is high.\n\n/scan - scan all 13 protocols now\n/prices - live token prices\n/status - agent health check\n/trade OPUSDT - force a sim trade\n/threshold 2 - set conviction level\n/help - show all commands')
+        return
+
     if text == '/scan':
         send('Scanning 13 protocols...')
         gh = gscan()

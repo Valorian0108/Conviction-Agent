@@ -101,23 +101,34 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <div id="prices" class="card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">Loading...</div>
 <script>
 function loadPrices() {
-  var tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT','STRKUSDT'];
-  var done = {}; var total = tokens.length;
-  tokens.forEach(function(t) {
-    fetch('https://api.bitget.com/api/v2/spot/market/tickers?symbol='+t)
-      .then(function(r){return r.json();})
-      .then(function(d){
-        if(d.data&&d.data[0]){done[t.replace('USDT','')]=parseFloat(d.data[0].lastPr).toFixed(4);}
-        if(Object.keys(done).length===total){
-          var h='';
-          Object.entries(done).forEach(function(e){
-            h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
-            h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
-            h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+e[1]+'</div></div>';
-          });
-          document.getElementById('prices').innerHTML=h;
-        }
-      }).catch(function(){done[t.replace('USDT','')]='N/A';});
+  fetch('/api/prices').then(function(r){return r.json();}).then(function(d){
+    if(Object.keys(d).length===0){throw new Error('empty');}
+    var h='';
+    Object.entries(d).forEach(function(e){
+      h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
+      h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
+      h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+parseFloat(e[1]).toFixed(4)+'</div></div>';
+    });
+    document.getElementById('prices').innerHTML=h;
+  }).catch(function(){
+    var tokens=['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT'];
+    var done={};
+    tokens.forEach(function(t){
+      fetch('https://api.bitget.com/api/v2/spot/market/tickers?symbol='+t)
+        .then(function(r){return r.json();})
+        .then(function(d){
+          if(d.data&&d.data[0])done[t.replace('USDT','')]=parseFloat(d.data[0].lastPr).toFixed(4);
+          if(Object.keys(done).length===tokens.length){
+            var h='';
+            Object.entries(done).forEach(function(e){
+              h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
+              h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
+              h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+e[1]+'</div></div>';
+            });
+            document.getElementById('prices').innerHTML=h;
+          }
+        }).catch(function(){});
+    });
   });
 }
 loadPrices();
