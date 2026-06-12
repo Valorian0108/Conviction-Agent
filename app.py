@@ -94,22 +94,27 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 {% endfor %}
 {% if trades|length > 10 %}
 <button id="loadbtn" onclick="loadMore()" style="width:100%;padding:12px;margin-top:8px;background:#21262d;border:1px solid #30363d;color:#58a6ff;border-radius:6px;cursor:pointer;font-family:monospace;font-size:.9em">
-  Load More ({{ trades|length - 10 }} more trades)
+  Show More ({{ trades|length - 10 }} more trades)
 </button>
 <script>
-var _s = 10;
+var _expanded = false;
 function loadMore() {
   var items = document.querySelectorAll('.trade-item');
-  var count = 0;
-  for (var i = _s; i < items.length && count < 10; i++) {
-    items[i].style.display = '';
-    count++;
-    _s++;
-  }
-  var rem = items.length - _s;
   var btn = document.getElementById('loadbtn');
-  if (rem <= 0) { btn.style.display = 'none'; }
-  else { btn.textContent = 'Load More (' + rem + ' more trades)'; }
+  if (!_expanded) {
+    for (var i = 0; i < items.length; i++) {
+      items[i].style.display = '';
+    }
+    btn.textContent = 'Show Less';
+    _expanded = true;
+  } else {
+    for (var i = 10; i < items.length; i++) {
+      items[i].style.display = 'none';
+    }
+    btn.textContent = 'Show More ({{ trades|length - 10 }} more trades)';
+    _expanded = false;
+    document.getElementById('trade-list') && document.getElementById('trade-list').scrollIntoView({behavior:'smooth'});
+  }
 }
 </script>
 {% endif %}
