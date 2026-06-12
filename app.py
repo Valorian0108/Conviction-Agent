@@ -82,15 +82,38 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 {% endif %}
 
 <h2>Trade Log</h2>
-{% if trades %}{% for t in trades %}
-<div class="card">
+{% if trades %}
+{% for t in trades %}
+<div class="card trade-item" {% if loop.index > 10 %}style="display:none"{% endif %}>
   <div><b style="color:#58a6ff">{{ t.action }} {{ t.token }}</b>
   <span style="color:#e6edf3"> @ ${{ t.price }}</span>
   <span class="sim">SIM</span></div>
   <div class="meta">${{ t.usd_amount }} | {{ t.quantity }} units | Conviction {{ t.conviction }}/5</div>
   <div class="meta">{{ t.timestamp }}</div>
 </div>
-{% endfor %}{% else %}
+{% endfor %}
+{% if trades|length > 10 %}
+<button id="loadbtn" onclick="loadMore()" style="width:100%;padding:12px;margin-top:8px;background:#21262d;border:1px solid #30363d;color:#58a6ff;border-radius:6px;cursor:pointer;font-family:monospace;font-size:.9em">
+  Load More ({{ trades|length - 10 }} more trades)
+</button>
+<script>
+var _s = 10;
+function loadMore() {
+  var items = document.querySelectorAll('.trade-item');
+  var count = 0;
+  for (var i = _s; i < items.length && count < 10; i++) {
+    items[i].style.display = '';
+    count++;
+    _s++;
+  }
+  var rem = items.length - _s;
+  var btn = document.getElementById('loadbtn');
+  if (rem <= 0) { btn.style.display = 'none'; }
+  else { btn.textContent = 'Load More (' + rem + ' more trades)'; }
+}
+</script>
+{% endif %}
+{% else %}
 <div class="card"><div class="empty">No trades yet.</div></div>
 {% endif %}
 
