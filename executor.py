@@ -33,7 +33,10 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'quantity': round(quantity, 6),
         'conviction': conviction,
         'reason': reason,
-        'mode': 'SIM'
+        'mode': 'SIM',
+        'balance_before': SIM_PORTFOLIO,
+        'balance_after': round(SIM_PORTFOLIO - usd_amount, 2),
+        'balance_change': round(-usd_amount, 2)
     }
     trade_log.append(trade)
     print('  [SIM] ' + action + ' ' + token + ' @ $' + str(price))
