@@ -39,7 +39,7 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
     <div style="color:#8b949e;font-size:.75em">PORTFOLIO</div>
-    <div style="color:#f0883e;font-size:1.4em;font-weight:bold">$10,000</div>
+    <div style="color:#f0883e;font-size:1.4em;font-weight:bold">${{ current_balance }}</div>
     <div style="color:#8b949e;font-size:.7em">SIM</div>
   </div>
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
@@ -247,7 +247,12 @@ _t.start()
 
 @app.route('/')
 def index():
-    return render_template_string(HTML, results=_cache['results'], trades=_cache['trades'], summary=_cache['summary'])
+    trades = _cache['trades']
+    if trades:
+        current_balance = trades[0].get('balance_after', 10000)
+    else:
+        current_balance = 10000
+    return render_template_string(HTML, results=_cache['results'], trades=trades, summary=_cache['summary'], current_balance='{:,.2f}'.format(current_balance))
 
 
 @app.route('/health')
