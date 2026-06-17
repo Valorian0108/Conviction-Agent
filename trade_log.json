@@ -8,6 +8,9 @@
     "quantity": 4246.284501,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
-    "mode": "SIM"
+    "mode": "SIM",
+    "balance_before": 10000,
+    "balance_after": 9600.0,
+    "balance_change": -400.0
   }
 ]
