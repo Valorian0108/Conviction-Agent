@@ -3,6 +3,20 @@ from datetime import datetime, timezone
 
 BASE_URL = 'https://api.bitget.com'
 SIM_PORTFOLIO = 10000
+
+def get_current_balance():
+    import json, os
+    if not os.path.exists("trade_log.json"):
+        return SIM_PORTFOLIO
+    try:
+        with open("trade_log.json") as f:
+            trades = json.load(f)
+        if not trades:
+            return SIM_PORTFOLIO
+        last = sorted(trades, key=lambda x: x.get("timestamp",""))[-1]
+        return last.get("balance_after", SIM_PORTFOLIO)
+    except:
+        return SIM_PORTFOLIO
 trade_log = []
 
 def get_price(symbol):
@@ -22,7 +36,8 @@ def execute_trade(token, action, size_pct, conviction, reason):
     if not price:
         print('  Could not get price for ' + token)
         return None
-    usd_amount = SIM_PORTFOLIO * (size_pct / 100)
+    current_balance = get_current_balance()
+    usd_amount = current_balance * (size_pct / 100)
     quantity = usd_amount / price
     trade = {
         'timestamp': datetime.now(timezone.utc).isoformat(),
@@ -34,8 +49,8 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'conviction': conviction,
         'reason': reason,
         'mode': 'SIM',
-        'balance_before': SIM_PORTFOLIO,
-        'balance_after': round(SIM_PORTFOLIO - usd_amount, 2),
+        'balance_before': round(current_balance, 2),
+        'balance_after': round(current_balance - usd_amount, 2),
         'balance_change': round(-usd_amount, 2)
     }
     trade_log.append(trade)
