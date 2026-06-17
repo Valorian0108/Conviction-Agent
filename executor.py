@@ -37,6 +37,9 @@ def execute_trade(token, action, size_pct, conviction, reason):
         print('  Could not get price for ' + token)
         return None
     current_balance = get_current_balance()
+    if current_balance < 500:
+        current_balance = 10000
+        print('Portfolio reset to $10,000')
     usd_amount = current_balance * (size_pct / 100)
     quantity = usd_amount / price
     trade = {
