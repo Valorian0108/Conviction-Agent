@@ -1,8 +1,22 @@
 TOKEN_MAP = {
-    'Uniswap': 'UNIUSDT', 'Aave': 'AAVEUSDT', 'Arbitrum': 'ARBUSDT',
-    'Optimism': 'OPUSDT', 'Chainlink': 'LINKUSDT', 'Curve': 'CRVUSDT',
-    'MakerDAO': 'MKRUSDT', 'uniswap': 'UNIUSDT', 'aave.eth': 'AAVEUSDT',
-    'arbitrumfoundation.eth': 'ARBUSDT', 'optimismfoundation.eth': 'OPUSDT'
+    'Uniswap': 'UNIUSDT',
+    'Aave': 'AAVEUSDT',
+    'Arbitrum': 'ARBUSDT',
+    'Optimism': 'OPUSDT',
+    'Chainlink': 'LINKUSDT',
+    'Curve': 'CRVUSDT',
+    'MakerDAO': 'MKRUSDT',
+    'zkSync': 'ZKUSDT',
+    'Scroll': 'SCRUSDT',
+    'Polygon': 'POLUSDT',
+    'EigenLayer': 'EIGENUSDT',
+    'Starknet': 'STRKUSDT',
+    'Base': 'ETHUSDT',
+    'uniswap': 'UNIUSDT',
+    'aave.eth': 'AAVEUSDT',
+    'arbitrumfoundation.eth': 'ARBUSDT',
+    'optimismfoundation.eth': 'OPUSDT',
+    'ens.eth': 'ENSUDT'
 }
 
 def score(github_signals, gov_signals):

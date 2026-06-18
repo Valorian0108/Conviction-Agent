@@ -6,6 +6,8 @@ from conviction import score
 from ai_reasoning import reason
 from notifier import send_alert
 import bot
+from github_logger import load_from_github
+load_from_github()
 
 app = Flask(__name__)
 

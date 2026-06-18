@@ -51,3 +51,39 @@ def push_trade(trade):
         print('Trade pushed to GitHub')
     except Exception as e:
         print('GitHub push failed: ' + str(e))
+
+def load_from_github():
+    if not GITHUB_TOKEN:
+        return
+    try:
+        current, sha = get_file()
+        if current and os.path.exists('trade_log.json'):
+            return
+        if current:
+            import json
+            lines = [l for l in current.split('\n') if l.startswith('|') and 'Timestamp' not in l and '---' not in l and l.strip() != '|']
+            trades = []
+            for line in lines:
+                parts = [p.strip() for p in line.split('|')[1:-1]]
+                if len(parts) >= 9:
+                    try:
+                        trades.append({
+                            'timestamp': parts[0],
+                            'token': parts[1],
+                            'action': parts[2],
+                            'price': float(parts[3].replace('$','')),
+                            'quantity': float(parts[4]),
+                            'usd_amount': float(parts[5].replace('$','')),
+                            'balance_before': float(parts[6].replace('$','')),
+                            'balance_after': float(parts[7].replace('$','')),
+                            'conviction': int(parts[8].replace('/5','')),
+                            'mode': 'SIM'
+                        })
+                    except: pass
+            if trades:
+                with open('trade_log.json', 'w') as f:
+                    json.dump(trades, f, indent=2)
+                print('Loaded ' + str(len(trades)) + ' trades from GitHub')
+    except Exception as e:
+        print('Load from GitHub failed: ' + str(e))
+
