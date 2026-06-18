@@ -1,4 +1,5 @@
 import os, json, requests
+from github_logger import push_trade
 from datetime import datetime, timezone
 
 BASE_URL = 'https://api.bitget.com'
@@ -57,6 +58,7 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'balance_change': round(-usd_amount, 2)
     }
     trade_log.append(trade)
+    push_trade(trade)
     print('  [SIM] ' + action + ' ' + token + ' @ $' + str(price))
     print('        Amount: $' + str(usd_amount) + ' | Qty: ' + str(round(quantity, 6)))
     return trade
