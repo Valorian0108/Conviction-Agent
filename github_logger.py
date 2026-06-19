@@ -49,6 +49,21 @@ def push_trade(trade):
         headers = {'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json'}
         requests.put(f'{API_BASE}/repos/{GITHUB_REPO}/contents/{FILE_PATH}', headers=headers, json=payload, timeout=15)
         print('Trade pushed to GitHub')
+        # Also push trade_log.json
+        try:
+            import json as _j
+            with open('trade_log.json') as _f:
+                raw = _j.load(_f)
+            _, sha2 = None, None
+            r2 = requests.get(f'{API_BASE}/repos/{GITHUB_REPO}/contents/trade_log.json', headers=headers, timeout=10)
+            if r2.status_code == 200:
+                sha2 = r2.json().get('sha')
+            enc2 = base64.b64encode(_j.dumps(raw, indent=2).encode()).decode()
+            p2 = {'message': 'Update trade_log.json', 'content': enc2}
+            if sha2: p2['sha'] = sha2
+            requests.put(f'{API_BASE}/repos/{GITHUB_REPO}/contents/trade_log.json', headers=headers, json=p2, timeout=15)
+        except Exception as _e:
+            print('trade_log.json push failed: ' + str(_e))
     except Exception as e:
         print('GitHub push failed: ' + str(e))
 
