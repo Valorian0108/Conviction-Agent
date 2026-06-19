@@ -58,7 +58,6 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'balance_change': round(-usd_amount, 2)
     }
     trade_log.append(trade)
-    push_trade(trade)
     print('  [SIM] ' + action + ' ' + token + ' @ $' + str(price))
     print('        Amount: $' + str(usd_amount) + ' | Qty: ' + str(round(quantity, 6)))
     return trade
@@ -76,4 +75,10 @@ def run(conviction_results):
         with open('trade_log.json', 'w') as f:
             json.dump(trade_log, f, indent=2)
         print(str(len(trades)) + ' trades logged to trade_log.json')
+        try:
+            from github_logger import push_trade
+            for t in trades:
+                push_trade(t)
+        except Exception as e:
+            print('GitHub push error: ' + str(e))
     return trades
