@@ -2114,7 +2114,7 @@
     "balance_change": -353.89
   },
   {
-    "timestamp": "2026-06-20T10:53:23.591770+00:00",
+    "timestamp": "2026-06-20T10:55:47.515311+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1033,
@@ -2128,7 +2128,7 @@
     "balance_change": -339.74
   },
   {
-    "timestamp": "2026-06-20T10:53:23.893657+00:00",
+    "timestamp": "2026-06-20T10:55:47.714862+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
     "price": 0.0841,
