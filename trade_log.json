@@ -1456,31 +1456,45 @@
     "balance_change": -46.89
   },
   {
-    "timestamp": "2026-06-20T08:42:59.256773+00:00",
+    "timestamp": "2026-06-20T08:41:26.833672+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1032,
-    "usd_amount": 45.01,
-    "quantity": 436.174419,
+    "usd_amount": 56.27,
+    "quantity": 545.218023,
+    "conviction": 2,
+    "reason": "Optimism shows elevated developer activity with 2.1x normal commits and strong contributor participation, signaling sustained project momentum and potential near-term upside. Trade size limited and conviction moderated due to absence of price action, volatility, or macro confirmation.",
+    "mode": "SIM",
+    "balance_before": 1125.33,
+    "balance_after": 1069.06,
+    "balance_change": -56.27
+  },
+  {
+    "timestamp": "2026-06-20T08:43:49.049132+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1032,
+    "usd_amount": 42.76,
+    "quantity": 414.364341,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
-    "balance_before": 1125.33,
-    "balance_after": 1080.32,
-    "balance_change": -45.01
+    "balance_before": 1069.06,
+    "balance_after": 1026.3,
+    "balance_change": -42.76
   },
   {
-    "timestamp": "2026-06-20T08:42:59.552489+00:00",
+    "timestamp": "2026-06-20T08:43:49.248149+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
     "price": 0.0841,
-    "usd_amount": 45.01,
-    "quantity": 535.234245,
+    "usd_amount": 42.76,
+    "quantity": 508.470868,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
-    "balance_before": 1125.33,
-    "balance_after": 1080.32,
-    "balance_change": -45.01
+    "balance_before": 1069.06,
+    "balance_after": 1026.3,
+    "balance_change": -42.76
   }
 ]
