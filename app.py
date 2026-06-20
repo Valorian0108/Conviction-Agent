@@ -1,5 +1,5 @@
 from flask import Flask, render_template_string, jsonify
-import json, os
+import json, os, requests
 from github_watcher import scan as gscan
 from governance_watcher import scan as govscan
 from conviction import score
