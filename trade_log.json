@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "timestamp": "2026-06-20T03:47:40.025439+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1025,
+    "usd_amount": 500.0,
+    "quantity": 4878.04878,
+    "conviction": 3,
+    "reason": "Optimism developer activity is notably strong today with commits running at 2.1x normal volume and 9 active contributors, signaling healthy protocol development. Positive L2 sector momentum is further supported by high Arbitrum governance participation, suggesting sustained ecosystem engagement and favorable fundamentals for layer-2 assets.",
+    "mode": "SIM",
+    "balance_before": 10000,
+    "balance_after": 9500.0,
+    "balance_change": -500.0
+  }
+]
