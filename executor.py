@@ -54,8 +54,8 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'reason': reason,
         'mode': 'SIM',
         'balance_before': round(current_balance, 2),
-        'balance_after': round(current_balance - usd_amount, 2),
-        'balance_change': round(-usd_amount, 2)
+        'balance_after': round(current_balance + usd_amount if action == 'SELL' else current_balance - usd_amount, 2),
+        'balance_change': round(usd_amount if action == 'SELL' else -usd_amount, 2)
     }
     trade_log.append(trade)
     print('  [SIM] ' + action + ' ' + token + ' @ $' + str(price))
@@ -72,8 +72,17 @@ def run(conviction_results):
             if trade:
                 trades.append(trade)
     if trades:
+        # Load existing history first so we don't wipe it on restart
+        existing = []
+        if os.path.exists('trade_log.json'):
+            try:
+                with open('trade_log.json') as f:
+                    existing = json.load(f)
+            except Exception:
+                existing = []
+        all_trades = existing + trades
         with open('trade_log.json', 'w') as f:
-            json.dump(trade_log, f, indent=2)
+            json.dump(all_trades, f, indent=2)
         print(str(len(trades)) + ' trades logged to trade_log.json')
         try:
             from github_logger import push_trade
