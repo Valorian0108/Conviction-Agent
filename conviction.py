@@ -16,7 +16,7 @@ TOKEN_MAP = {
     'aave.eth': 'AAVEUSDT',
     'arbitrumfoundation.eth': 'ARBUSDT',
     'optimismfoundation.eth': 'OPUSDT',
-    'ens.eth': 'ENSUDT'
+    'ens.eth': 'ENSUSDT'
 }
 
 def score(github_signals, gov_signals):
