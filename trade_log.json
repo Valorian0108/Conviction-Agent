@@ -2672,5 +2672,33 @@
     "balance_before": 3910.56,
     "balance_after": 3754.14,
     "balance_change": -156.42
+  },
+  {
+    "timestamp": "2026-06-20T12:41:56.023801+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1016,
+    "usd_amount": 150.17,
+    "quantity": 1478.007874,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 3754.14,
+    "balance_after": 3603.97,
+    "balance_change": -150.17
+  },
+  {
+    "timestamp": "2026-06-20T12:41:56.232382+00:00",
+    "token": "ARBUSDT",
+    "action": "BUY",
+    "price": 0.0836,
+    "usd_amount": 150.17,
+    "quantity": 1796.239234,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 3754.14,
+    "balance_after": 3603.97,
+    "balance_change": -150.17
   }
 ]
