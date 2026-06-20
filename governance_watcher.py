@@ -19,4 +19,3 @@ def scan():
                 print(f"  {space}: {p['title'][:50]} — {p['votes']} votes")
     print(f'Active governance signals: {len(signals)}'); return signals
 
-scan()
