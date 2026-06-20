@@ -49,13 +49,15 @@ def push_trade(trade):
             ' | $' + str(trade.get('balance_after', '')) +
             ' | ' + str(trade.get('conviction', '')) + '/5 |'
         )
+        TABLE_HEADER = '# Paper Trading Log — Conviction Agent\n\n| Timestamp | Pair | Direction | Price | Quantity | USD Amount | Balance Before | Balance After | Conviction |\n|-----------|------|-----------|-------|----------|------------|----------------|---------------|------------|'
         if current and current.strip():
-            new_md = current + '\n' + row
+            # Ensure header is present even if file was created without one
+            body = current.strip()
+            if not body.startswith('#'):
+                body = TABLE_HEADER + '\n' + body
+            new_md = body + '\n' + row
         else:
-            new_md = '# Paper Trading Log - Conviction Agent\n\n'
-            new_md += '| Timestamp | Pair | Direction | Price | Quantity | Amount | Balance Before | Balance After | Conviction |\n'
-            new_md += '|-----------|------|-----------|-------|----------|--------|----------------|---------------|------------|\n'
-            new_md += row
+            new_md = TABLE_HEADER + '\n' + row
         ok1 = _put_file('paper_trading_log.md', new_md, sha, 'Trade: ' + str(trade.get('token')) + ' ' + str(trade.get('action')))
         print('paper_trading_log.md pushed:', ok1)
 
