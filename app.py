@@ -222,7 +222,7 @@ def _bg_scan():
             _cache['summary'] = ai['summary'] if ai else ''
             from executor import run as _r
             _r(_cache['results'])
-if os.path.exists('trade_log.json'):
+            if os.path.exists('trade_log.json'):
                 with open('trade_log.json') as f:
                     _cache['trades'] = list(reversed(json.load(f)))
             
