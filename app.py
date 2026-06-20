@@ -204,13 +204,47 @@ setInterval(updateData, 30000);
     Bitget AI Hackathon S1 &mdash; Track 1: Trading Agent &mdash; Signals: GitHub dev activity + governance &mdash; Execution: Bitget spot sim
   </div>
 </div>
+
+<h2>Scan Log</h2>
+<div id="scan-meta" style="color:#8b949e;font-size:.8em;margin-bottom:8px">Loading...</div>
+<div id="scan-log" style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:16px;font-family:'Courier New',monospace;font-size:.78em;color:#8b949e;max-height:340px;overflow-y:auto;white-space:pre-wrap">Waiting for scan data...</div>
+<script>
+function loadLogs() {
+  fetch('/api/logs').then(function(r){return r.json();}).then(function(d){
+    var el = document.getElementById('scan-log');
+    var meta = document.getElementById('scan-meta');
+    if (d.log && d.log.length > 0) {
+      el.textContent = d.log.join('\n');
+      el.scrollTop = el.scrollHeight;
+      meta.textContent = 'Scan #' + d.scan_count + ' completed ' + d.ts;
+      // Color code lines
+      var html = d.log.map(function(line) {
+        if (line.includes('EXECUTOR') || line.includes('[SIM]')) return '<span style="color:#3fb950">' + line + '</span>';
+        if (line.includes('Qwen') || line.includes('AI')) return '<span style="color:#58a6ff">' + line + '</span>';
+        if (line.includes('ERROR') || line.includes('error') || line.includes('failed')) return '<span style="color:#f85149">' + line + '</span>';
+        if (line.includes('Skipping') || line.includes('cooldown')) return '<span style="color:#f0883e">' + line + '</span>';
+        return '<span>' + line + '</span>';
+      }).join('\n');
+      el.innerHTML = html;
+    } else {
+      el.textContent = 'First scan runs at startup and then every 30 min. Check back shortly.';
+      meta.textContent = 'Last scan: ' + (d.ts || 'pending');
+    }
+  }).catch(function(){ 
+    document.getElementById('scan-log').textContent = 'Log unavailable';
+  });
+}
+loadLogs();
+setInterval(loadLogs, 15000);
+</script>
+
 <div class="footer"></div>
 </body></html>"""
 
 
-import threading, time
+import threading, time, io, sys
 
-_cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned'}
+_cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned', 'scan_log': [], 'scan_count': 0}
 
 # Pre-load trade history on startup so dashboard shows real data immediately (not after first scan)
 if os.path.exists('trade_log.json'):
@@ -222,6 +256,9 @@ if os.path.exists('trade_log.json'):
 
 def _bg_scan():
     while True:
+        _log_buf = io.StringIO()
+        _orig_stdout = sys.stdout
+        sys.stdout = _log_buf
         try:
             from github_watcher import WATCHED_REPOS, score_repo as _sr
             all_gh = [_sr(r) for r in WATCHED_REPOS]
@@ -252,7 +289,19 @@ def _bg_scan():
                 except: pass
             _cache['prices'] = prices
         except Exception as e:
-            print('Scan error: ' + str(e))
+            sys.stdout = _orig_stdout
+            _log_buf.seek(0)
+            _log_lines = _log_buf.read().strip().split('\n')
+            _cache['scan_count'] = _cache.get('scan_count', 0) + 1
+            _cache['scan_log'] = _log_lines[-150:]  # keep last 150 lines
+            _cache['ts'] = 'Error: ' + str(e)
+        finally:
+            sys.stdout = _orig_stdout
+            _log_buf.seek(0)
+            _log_lines = _log_buf.read().strip().split('\n')
+            if any(l.strip() for l in _log_lines):
+                _cache['scan_count'] = _cache.get('scan_count', 0) + 1
+                _cache['scan_log'] = _log_lines[-150:]
         time.sleep(1800)
 
 # Safe startup - catch any thread/import errors so Flask still serves health checks
@@ -310,6 +359,15 @@ def api_signals():
     gh = gscan()
     gov = govscan()
     return jsonify(score(gh, gov))
+
+@app.route('/api/logs')
+def api_logs():
+    from flask import jsonify
+    return jsonify({
+        'log': _cache.get('scan_log', []),
+        'scan_count': _cache.get('scan_count', 0),
+        'ts': _cache.get('ts', 'Not yet scanned')
+    })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
