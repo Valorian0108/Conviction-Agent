@@ -7,7 +7,10 @@ from ai_reasoning import reason
 from notifier import send_alert
 import bot
 from github_logger import load_from_github
-load_from_github()
+try:
+    load_from_github()
+except Exception as _e:
+    print('WARNING: load_from_github failed: ' + str(_e))
 
 app = Flask(__name__)
 
@@ -252,9 +255,17 @@ def _bg_scan():
             print('Scan error: ' + str(e))
         time.sleep(1800)
 
-bot.start()
-_t = threading.Thread(target=_bg_scan, daemon=True)
-_t.start()
+# Safe startup - catch any thread/import errors so Flask still serves health checks
+try:
+    bot.start()
+except Exception as _e:
+    print('WARNING: Telegram bot failed to start: ' + str(_e))
+
+try:
+    _t = threading.Thread(target=_bg_scan, daemon=True)
+    _t.start()
+except Exception as _e:
+    print('WARNING: Background scan failed to start: ' + str(_e))
 
 @app.route('/')
 def index():
