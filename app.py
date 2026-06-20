@@ -209,6 +209,14 @@ import threading, time
 
 _cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned'}
 
+# Pre-load trade history on startup so dashboard shows real data immediately (not after first scan)
+if os.path.exists('trade_log.json'):
+    try:
+        with open('trade_log.json') as _f:
+            _cache['trades'] = list(reversed(json.load(_f)))
+    except Exception:
+        pass
+
 def _bg_scan():
     while True:
         try:
