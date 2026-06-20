@@ -168,7 +168,7 @@
     "balance_change": -326.15
   },
   {
-    "timestamp": "2026-06-20T04:23:36.788057+00:00",
+    "timestamp": "2026-06-20T04:25:17.075396+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1027,
@@ -182,12 +182,12 @@
     "balance_change": -313.1
   },
   {
-    "timestamp": "2026-06-20T04:23:37.016400+00:00",
+    "timestamp": "2026-06-20T04:25:17.462794+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
-    "price": 0.0832,
+    "price": 0.0831,
     "usd_amount": 313.1,
-    "quantity": 3763.259615,
+    "quantity": 3767.788207,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
