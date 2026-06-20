@@ -3,7 +3,7 @@ import requests, os
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '')
 
-_last_alert_tokens = set()  # dedup: track which tokens we last alerted on
+_last_alert_tokens = set()  # dedup: only alert when signal tokens change
 
 def send_alert(results, summary):
     global _last_alert_tokens
@@ -12,7 +12,6 @@ def send_alert(results, summary):
     if not results:
         return
 
-    # Only send if the set of tokens has changed since last alert
     current_tokens = set(r['token'] for r in results)
     if current_tokens == _last_alert_tokens:
         print('No new signals since last alert - skipping Telegram notification')
@@ -29,11 +28,12 @@ def send_alert(results, summary):
     if summary:
         lines.append('AI: ' + summary[:250])
 
+    message_text = '\n'.join(lines)
+
     try:
         r = requests.post(
             'https://api.telegram.org/bot' + TELEGRAM_TOKEN + '/sendMessage',
-            json={'chat_id': TELEGRAM_CHAT_ID, 'text': '
-'.join(lines)},
+            json={'chat_id': TELEGRAM_CHAT_ID, 'text': message_text},
             timeout=10
         )
         if r.status_code == 200:
