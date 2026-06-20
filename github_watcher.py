@@ -1,5 +1,13 @@
-import requests
+import requests, os
 from datetime import datetime, timedelta, timezone
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+
+def _headers():
+    h = {"Accept": "application/vnd.github+json"}
+    if GITHUB_TOKEN:
+        h["Authorization"] = "Bearer " + GITHUB_TOKEN
+    return h
 
 WATCHED_REPOS = [
     {"protocol": "Uniswap",   "repo": "Uniswap/v4-core"},
@@ -23,7 +31,7 @@ def get_recent_commits(repo, hours=24):
     since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
     try:
         r = requests.get(f"{GITHUB_API}/repos/{repo}/commits",
-                        params={"since": since, "per_page": 100}, timeout=10)
+                        params={"since": since, "per_page": 100}, headers=_headers(), timeout=10)
         return len(r.json()) if r.status_code == 200 else 0
     except:
         return 0
@@ -32,7 +40,7 @@ def get_baseline(repo):
     since = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
     try:
         r = requests.get(f"{GITHUB_API}/repos/{repo}/commits",
-                        params={"since": since, "per_page": 100}, timeout=10)
+                        params={"since": since, "per_page": 100}, headers=_headers(), timeout=10)
         return len(r.json()) / 30 if r.status_code == 200 else 1
     except:
         return 1
@@ -41,7 +49,7 @@ def get_contributors(repo, hours=48):
     since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
     try:
         r = requests.get(f"{GITHUB_API}/repos/{repo}/commits",
-                        params={"since": since, "per_page": 100}, timeout=10)
+                        params={"since": since, "per_page": 100}, headers=_headers(), timeout=10)
         if r.status_code == 200:
             return len({c["author"]["login"] for c in r.json() if c.get("author")})
         return 0
