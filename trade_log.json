@@ -154,31 +154,17 @@
     "balance_change": -75.02
   },
   {
-    "timestamp": "2026-06-20T03:28:37.420509+00:00",
+    "timestamp": "2026-06-20T03:30:08.200514+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1029,
-    "usd_amount": 72.02,
-    "quantity": 699.902818,
-    "conviction": 2,
-    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "usd_amount": 90.03,
+    "quantity": 874.878523,
+    "conviction": 3,
+    "reason": "Optimism developer activity is highly positive with 7 commits (2.1x daily average) and 9 active contributors, indicating accelerated protocol development and potential fundamental catalyst. While Chainlink shows neutral dev metrics and Arbitrum governance is highly active, the concentrated bullish signal on OP justifies a tactical long position.",
     "mode": "SIM",
     "balance_before": 1800.5,
-    "balance_after": 1728.48,
-    "balance_change": -72.02
-  },
-  {
-    "timestamp": "2026-06-20T03:28:37.730305+00:00",
-    "token": "ARBUSDT",
-    "action": "BUY",
-    "price": 0.083,
-    "usd_amount": 72.02,
-    "quantity": 867.710843,
-    "conviction": 2,
-    "reason": "Conviction 2/5 - dev and governance signals aligned",
-    "mode": "SIM",
-    "balance_before": 1800.5,
-    "balance_after": 1728.48,
-    "balance_change": -72.02
+    "balance_after": 1710.47,
+    "balance_change": -90.03
   }
 ]
