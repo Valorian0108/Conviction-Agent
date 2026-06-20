@@ -1,16 +1,16 @@
 [
   {
-    "timestamp": "2026-06-20T02:49:06.565016+00:00",
-    "token": "OPUSDT",
+    "timestamp": "2026-06-20T02:49:44.313606+00:00",
+    "token": "ARBUSDT",
     "action": "BUY",
-    "price": 0.1025,
-    "usd_amount": 119.8,
-    "quantity": 1168.8,
-    "conviction": 3,
-    "reason": "Optimism demonstrates elevated developer momentum with 2.1x normal commit volume and 9 active contributors, indicating sustained protocol improvement and ecosystem growth. Concurrent high L2 governance participation suggests broader sector health, justifying a measured accumulation position.",
+    "price": 0.0831,
+    "usd_amount": 95.84,
+    "quantity": 1153.32852,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 2396.04,
-    "balance_after": 2276.24,
-    "balance_change": -119.8
+    "balance_after": 2300.2,
+    "balance_change": -95.84
   }
 ]
