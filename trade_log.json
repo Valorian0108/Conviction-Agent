@@ -126,17 +126,31 @@
     "balance_change": -78.15
   },
   {
-    "timestamp": "2026-06-20T03:21:32.605719+00:00",
+    "timestamp": "2026-06-20T03:22:21.500636+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1029,
-    "usd_amount": 93.78,
-    "quantity": 911.33139,
-    "conviction": 3,
-    "reason": "Optimism shows elevated developer activity with 7 commits today (2.1x normal baseline) and 9 active contributors, scoring 2/3. This positive dev momentum often precedes network upgrades or increased utility, supporting a moderate conviction buy. Chainlink's 1/3 dev score suggests slower progress, while Arbitrum governance shows steady but routine participation without immediate high-impact price catalysts.",
+    "usd_amount": 75.02,
+    "quantity": 729.065112,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 1875.52,
-    "balance_after": 1781.74,
-    "balance_change": -93.78
+    "balance_after": 1800.5,
+    "balance_change": -75.02
+  },
+  {
+    "timestamp": "2026-06-20T03:22:21.802131+00:00",
+    "token": "ARBUSDT",
+    "action": "BUY",
+    "price": 0.0829,
+    "usd_amount": 75.02,
+    "quantity": 904.955368,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 1875.52,
+    "balance_after": 1800.5,
+    "balance_change": -75.02
   }
 ]
