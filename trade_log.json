@@ -1,11 +1,11 @@
 [
   {
-    "timestamp": "2026-06-20T02:55:47.904376+00:00",
+    "timestamp": "2026-06-20T02:56:49.755651+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
-    "price": 0.0831,
+    "price": 0.0829,
     "usd_amount": 92.01,
-    "quantity": 1107.196149,
+    "quantity": 1109.86731,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
