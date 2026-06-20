@@ -19,6 +19,7 @@ def get_current_balance():
     except:
         return SIM_PORTFOLIO
 trade_log = []
+_last_traded = {}  # token -> timestamp of last trade (cooldown guard)
 
 def get_price(symbol):
     try:
@@ -33,6 +34,14 @@ def get_price(symbol):
     return None
 
 def execute_trade(token, action, size_pct, conviction, reason):
+    # Cooldown: skip if same token was traded within the last 30 minutes
+    import time as _time
+    now = _time.time()
+    if token in _last_traded and now - _last_traded[token] < 1800:
+        mins_ago = int((now - _last_traded[token]) / 60)
+        print(f'  Skipping {token} - traded {mins_ago}m ago (cooldown 30m)')
+        return None
+    _last_traded[token] = now
     price = get_price(token)
     if not price:
         print('  Could not get price for ' + token)
