@@ -3066,31 +3066,17 @@
     "balance_change": -88.33
   },
   {
-    "timestamp": "2026-06-20T14:01:44.176526+00:00",
+    "timestamp": "2026-06-20T14:02:49.150336+00:00",
     "token": "OPUSDT",
     "action": "BUY",
-    "price": 0.1004,
-    "usd_amount": 84.79,
-    "quantity": 844.565737,
-    "conviction": 2,
-    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "price": 0.0997,
+    "usd_amount": 105.99,
+    "quantity": 1063.119358,
+    "conviction": 3,
+    "reason": "Optimism shows elevated developer activity with 1.5x baseline commit volume and 9 active contributors, signaling healthy fundamental momentum. Active L2 governance participation across Arbitrum reflects broader ecosystem vitality, supporting a selective accumulation strategy for OP.",
     "mode": "SIM",
     "balance_before": 2119.86,
-    "balance_after": 2035.07,
-    "balance_change": -84.79
-  },
-  {
-    "timestamp": "2026-06-20T14:01:44.381529+00:00",
-    "token": "ARBUSDT",
-    "action": "BUY",
-    "price": 0.0827,
-    "usd_amount": 84.79,
-    "quantity": 1025.325272,
-    "conviction": 2,
-    "reason": "Conviction 2/5 - dev and governance signals aligned",
-    "mode": "SIM",
-    "balance_before": 2119.86,
-    "balance_after": 2035.07,
-    "balance_change": -84.79
+    "balance_after": 2013.87,
+    "balance_change": -105.99
   }
 ]
