@@ -1218,17 +1218,31 @@
     "balance_change": -68.42
   },
   {
-    "timestamp": "2026-06-20T07:52:44.262376+00:00",
+    "timestamp": "2026-06-20T07:53:43.017391+00:00",
     "token": "OPUSDT",
     "action": "BUY",
-    "price": 0.1037,
-    "usd_amount": 82.1,
-    "quantity": 791.735776,
-    "conviction": 3,
-    "reason": "Optimism shows strong developer momentum with 2.1x average daily commits and 9 active contributors, signaling sustained engineering velocity and protocol health. This positive on-chain development signal justifies a moderate accumulation position.",
+    "price": 0.1034,
+    "usd_amount": 65.68,
+    "quantity": 635.226306,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 1642.06,
-    "balance_after": 1559.96,
-    "balance_change": -82.1
+    "balance_after": 1576.38,
+    "balance_change": -65.68
+  },
+  {
+    "timestamp": "2026-06-20T07:53:43.316281+00:00",
+    "token": "ARBUSDT",
+    "action": "BUY",
+    "price": 0.0842,
+    "usd_amount": 65.68,
+    "quantity": 780.07601,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 1642.06,
+    "balance_after": 1576.38,
+    "balance_change": -65.68
   }
 ]
