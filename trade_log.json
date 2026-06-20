@@ -138,5 +138,19 @@
     "balance_before": 8493.47,
     "balance_after": 8153.73,
     "balance_change": -339.74
+  },
+  {
+    "timestamp": "2026-06-20T04:15:18.698934+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1024,
+    "usd_amount": 407.69,
+    "quantity": 3981.313477,
+    "conviction": 3,
+    "reason": "Elevated Optimism developer activity (2.1x normal commits, 9 active contributors, 2/3 score) indicates sustained protocol development and positive fundamental momentum. L2 governance activity suggests ongoing ecosystem relevance, supporting a conservative long position.",
+    "mode": "SIM",
+    "balance_before": 8153.73,
+    "balance_after": 7746.04,
+    "balance_change": -407.69
   }
 ]
