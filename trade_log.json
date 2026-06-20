@@ -2030,17 +2030,31 @@
     "balance_change": -400.0
   },
   {
-    "timestamp": "2026-06-20T10:37:15.779697+00:00",
+    "timestamp": "2026-06-20T10:38:17.664631+00:00",
     "token": "OPUSDT",
     "action": "BUY",
-    "price": 0.103,
-    "usd_amount": 480.0,
-    "quantity": 4660.194175,
-    "conviction": 3,
-    "reason": "Optimism shows a clear spike in developer momentum with 6 commits (1.8x normal baseline) and 9 unique active contributors, indicating accelerated development and potential upcoming upgrades. ARB governance reflects routine structural voting without immediate price catalysts, and LINK dev activity is below threshold. OP presents the strongest risk-adjusted alpha based on verified dev signals.",
+    "price": 0.1029,
+    "usd_amount": 384.0,
+    "quantity": 3731.778426,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 9600.0,
-    "balance_after": 9120.0,
-    "balance_change": -480.0
+    "balance_after": 9216.0,
+    "balance_change": -384.0
+  },
+  {
+    "timestamp": "2026-06-20T10:38:17.875551+00:00",
+    "token": "ARBUSDT",
+    "action": "BUY",
+    "price": 0.084,
+    "usd_amount": 384.0,
+    "quantity": 4571.428571,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 9600.0,
+    "balance_after": 9216.0,
+    "balance_change": -384.0
   }
 ]
