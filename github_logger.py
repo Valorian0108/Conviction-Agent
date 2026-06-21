@@ -36,7 +36,9 @@ def push_trade(trade):
         print('No GITHUB_TOKEN - skipping push')
         return
     try:
-        # 1. Update paper_trading_log.md
+        # Only update paper_trading_log.md (required for hackathon evidence)
+        # trade_log.json is NOT pushed to GitHub - it was triggering a rebuild on
+        # every trade via Render auto-deploy, burning through free pipeline minutes
         current, sha = _get_file('paper_trading_log.md')
         row = (
             '| ' + str(trade.get('timestamp', ''))[:19].replace('T', ' ') +
@@ -49,28 +51,21 @@ def push_trade(trade):
             ' | $' + str(trade.get('balance_after', '')) +
             ' | ' + str(trade.get('conviction', '')) + '/5 |'
         )
-        TABLE_HEADER = '# Paper Trading Log — Conviction Agent\n\n| Timestamp | Pair | Direction | Price | Quantity | USD Amount | Balance Before | Balance After | Conviction |\n|-----------|------|-----------|-------|----------|------------|----------------|---------------|------------|'
+        TABLE_HEADER = (
+            '# Paper Trading Log — Conviction Agent\n\n'
+            '| Timestamp | Pair | Direction | Price | Quantity | USD Amount | Balance Before | Balance After | Conviction |\n'
+            '|-----------|------|-----------|-------|----------|------------|----------------|---------------|------------|'
+        )
         if current and current.strip():
-            # Ensure header is present even if file was created without one
             body = current.strip()
             if not body.startswith('#'):
                 body = TABLE_HEADER + '\n' + body
             new_md = body + '\n' + row
         else:
             new_md = TABLE_HEADER + '\n' + row
-        ok1 = _put_file('paper_trading_log.md', new_md, sha, 'Trade: ' + str(trade.get('token')) + ' ' + str(trade.get('action')))
-        print('paper_trading_log.md pushed:', ok1)
-
-        # 2. Update trade_log.json
-        try:
-            with open('trade_log.json') as f:
-                all_trades = json.load(f)
-        except:
-            all_trades = [trade]
-
-        _, sha2 = _get_file('trade_log.json')
-        ok2 = _put_file('trade_log.json', json.dumps(all_trades, indent=2), sha2, 'Update trade_log.json')
-        print('trade_log.json pushed:', ok2)
+        ok = _put_file('paper_trading_log.md', new_md, sha,
+                       'Trade: ' + str(trade.get('token')) + ' ' + str(trade.get('action')))
+        print('paper_trading_log.md pushed:', ok)
 
     except Exception as e:
         print('push_trade error: ' + str(e))
