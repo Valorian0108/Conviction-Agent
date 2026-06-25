@@ -10190,5 +10190,19 @@
     "balance_before": 4885.51,
     "balance_after": 4690.09,
     "balance_change": -195.42
+  },
+  {
+    "timestamp": "2026-06-25T19:36:38.399938+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 7.172,
+    "usd_amount": 187.6,
+    "quantity": 26.15778,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 4690.09,
+    "balance_after": 4502.49,
+    "balance_change": -187.6
   }
 ]
