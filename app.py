@@ -107,18 +107,13 @@ function loadMore() {
   var items = document.querySelectorAll('.trade-item');
   var btn = document.getElementById('loadbtn');
   if (!_expanded) {
-    for (var i = 0; i < items.length; i++) {
-      items[i].style.display = '';
-    }
+    for (var i = 0; i < items.length; i++) { items[i].style.display = ''; }
     btn.textContent = 'Show Less';
     _expanded = true;
   } else {
-    for (var i = 10; i < items.length; i++) {
-      items[i].style.display = 'none';
-    }
+    for (var i = 10; i < items.length; i++) { items[i].style.display = 'none'; }
     btn.textContent = 'Show More ({{ trades|length - 10 }} more trades)';
     _expanded = false;
-    document.getElementById('trade-list') && document.getElementById('trade-list').scrollIntoView({behavior:'smooth'});
   }
 }
 </script>
@@ -127,46 +122,10 @@ function loadMore() {
 <div class="card"><div class="empty">No trades yet.</div></div>
 {% endif %}
 
-
 <h2>Protocol Monitor</h2>
 <div id="protocols" class="card">Loading...</div>
 <h2>Live Prices</h2>
 <div id="prices" class="card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">Loading...</div>
-<script>
-function loadPrices() {
-  fetch('/api/prices').then(function(r){return r.json();}).then(function(d){
-    if(Object.keys(d).length===0){throw new Error('empty');}
-    var h='';
-    Object.entries(d).forEach(function(e){
-      h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
-      h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
-      h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+parseFloat(e[1]).toFixed(4)+'</div></div>';
-    });
-    document.getElementById('prices').innerHTML=h;
-  }).catch(function(){
-    var tokens=['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT'];
-    var done={};
-    tokens.forEach(function(t){
-      fetch('https://api.bitget.com/api/v2/spot/market/tickers?symbol='+t)
-        .then(function(r){return r.json();})
-        .then(function(d){
-          if(d.data&&d.data[0])done[t.replace('USDT','')]=parseFloat(d.data[0].lastPr).toFixed(4);
-          if(Object.keys(done).length===tokens.length){
-            var h='';
-            Object.entries(done).forEach(function(e){
-              h+='<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
-              h+='<div style="color:#8b949e;font-size:.75em">'+e[0]+'</div>';
-              h+='<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+e[1]+'</div></div>';
-            });
-            document.getElementById('prices').innerHTML=h;
-          }
-        }).catch(function(){});
-    });
-  });
-}
-loadPrices();
-setInterval(loadPrices, 30000);
-</script>
 <script>
 function updateData() {
   fetch('/api/status').then(r=>r.json()).then(d=>{
@@ -185,9 +144,11 @@ function updateData() {
   fetch('/api/prices').then(r=>r.json()).then(d=>{
     let h = '';
     Object.entries(d).forEach(([k,v])=>{
-      h += '<span style="margin-right:20px;color:#58a6ff">'+k+' <b style="color:#e6edf3">$'+v+'</b></span>';
+      h += '<div style="text-align:center;padding:8px 16px;background:#21262d;border-radius:6px">';
+      h += '<div style="color:#8b949e;font-size:.75em">'+k+'</div>';
+      h += '<div style="color:#58a6ff;font-weight:bold;font-size:1.1em">$'+parseFloat(v).toFixed(4)+'</div></div>';
     });
-    document.getElementById('prices').innerHTML = h;
+    document.getElementById('prices').innerHTML = h || 'Unavailable';
   }).catch(()=>{});
 }
 updateData();
@@ -214,10 +175,6 @@ function loadLogs() {
     var el = document.getElementById('scan-log');
     var meta = document.getElementById('scan-meta');
     if (d.log && d.log.length > 0) {
-      el.textContent = d.log.join('\n');
-      el.scrollTop = el.scrollHeight;
-      meta.textContent = 'Scan #' + d.scan_count + ' completed ' + d.ts;
-      // Color code lines
       var html = d.log.map(function(line) {
         if (line.includes('EXECUTOR') || line.includes('[SIM]')) return '<span style="color:#3fb950">' + line + '</span>';
         if (line.includes('Qwen') || line.includes('AI')) return '<span style="color:#58a6ff">' + line + '</span>';
@@ -226,11 +183,13 @@ function loadLogs() {
         return '<span>' + line + '</span>';
       }).join('\n');
       el.innerHTML = html;
+      el.scrollTop = el.scrollHeight;
+      meta.textContent = 'Scan #' + d.scan_count + ' completed ' + d.ts;
     } else {
       el.textContent = 'First scan runs at startup and then every 30 min. Check back shortly.';
       meta.textContent = 'Last scan: ' + (d.ts || 'pending');
     }
-  }).catch(function(){ 
+  }).catch(function(){
     document.getElementById('scan-log').textContent = 'Log unavailable';
   });
 }
@@ -242,11 +201,10 @@ setInterval(loadLogs, 15000);
 </body></html>"""
 
 
-import threading, time, io, sys
+import threading, time, datetime
 
 _cache = {'results': [], 'summary': '', 'trades': [], 'ts': 'Not yet scanned', 'scan_log': [], 'scan_count': 0}
 
-# Pre-load trade history on startup so dashboard shows real data immediately (not after first scan)
 if os.path.exists('trade_log.json'):
     try:
         with open('trade_log.json') as _f:
@@ -254,57 +212,87 @@ if os.path.exists('trade_log.json'):
     except Exception:
         pass
 
+def _log(lines, entry):
+    lines.append(entry)
+    print(entry)
+
 def _bg_scan():
     while True:
-        _log_buf = io.StringIO()
-        _orig_stdout = sys.stdout
-        sys.stdout = _log_buf
+        lines = []
         try:
+            _log(lines, '--- SCAN START ' + datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC') + ' ---')
+
+            _log(lines, 'Scanning GitHub activity...')
             from github_watcher import WATCHED_REPOS, score_repo as _sr
-            all_gh = [_sr(r) for r in WATCHED_REPOS]
+            all_gh = []
+            for r in WATCHED_REPOS:
+                result = _sr(r)
+                all_gh.append(result)
+                reasons = ' | '.join(result['reasons']) if result['reasons'] else 'no unusual activity'
+                _log(lines, '  ' + result['protocol'].ljust(12) + ' score ' + str(result['score']) + '/3  ' + reasons)
+
             _cache['github_scores'] = [{'protocol': r['protocol'], 'score': r['score']} for r in all_gh]
             gh = [r for r in all_gh if r['score'] > 0]
+            _log(lines, 'GitHub signals: ' + str(len(gh)) + ' protocols above threshold')
+
+            _log(lines, 'Scanning governance...')
             gov = govscan()
+            _log(lines, 'Governance signals: ' + str(len(gov)))
+
+            _log(lines, 'Calling Qwen AI...')
             ai = reason(gh, gov)
-            _cache['results'] = ai['trades'] if ai and ai['trades'] else score(gh, gov)
-            _cache['summary'] = ai['summary'] if ai else ''
+            if ai:
+                _log(lines, 'Qwen AI responded — ' + str(len(ai.get('trades', []))) + ' trade(s) suggested')
+                if ai.get('summary'):
+                    _log(lines, 'AI summary: ' + ai['summary'][:120])
+                _cache['results'] = ai['trades']
+                _cache['summary'] = ai['summary']
+            else:
+                _log(lines, 'Qwen AI unavailable — using fallback scorer')
+                _cache['results'] = score(gh, gov)
+                _cache['summary'] = ''
+
+            _log(lines, 'EXECUTOR - Processing ' + str(len(_cache['results'])) + ' signal(s)...')
             from executor import run as _r
-            _r(_cache['results'])
+            trades_made = _r(_cache['results'])
+            _log(lines, str(len(trades_made)) + ' trade(s) executed this cycle')
+            for t in trades_made:
+                _log(lines, '  [SIM] ' + t['action'] + ' ' + t['token'] + ' @ $' + str(t['price']) + ' | $' + str(t['usd_amount']) + ' | conviction ' + str(t['conviction']) + '/5')
+
             if os.path.exists('trade_log.json'):
                 with open('trade_log.json') as f:
                     _cache['trades'] = list(reversed(json.load(f)))
-            
-            if _cache['results']: send_alert(_cache['results'], _cache['summary'])
-            import datetime
-            _cache['ts'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
-            tokens = ['BTCUSDT','ETHUSDT','OPUSDT','STRKUSDT','ZKUSDT','LINKUSDT','ARBUSDT']
+
+            if _cache['results']:
+                send_alert(_cache['results'], _cache['summary'])
+
+            tokens = ['BTCUSDT', 'ETHUSDT', 'OPUSDT', 'STRKUSDT', 'ZKUSDT', 'LINKUSDT', 'ARBUSDT']
             prices = {}
             for t in tokens:
                 try:
                     pr = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
-                        params={'symbol':t}, timeout=5)
+                        params={'symbol': t}, timeout=5)
                     if pr.status_code == 200:
-                        data = pr.json().get('data',[])
-                        if data: prices[t.replace('USDT','')] = data[0]['lastPr']
-                except: pass
+                        data = pr.json().get('data', [])
+                        if data:
+                            prices[t.replace('USDT', '')] = data[0]['lastPr']
+                except:
+                    pass
             _cache['prices'] = prices
+
+            _cache['ts'] = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
+            _log(lines, '--- SCAN COMPLETE ' + _cache['ts'] + ' | next in 30min ---')
+
         except Exception as e:
-            sys.stdout = _orig_stdout
-            _log_buf.seek(0)
-            _log_lines = _log_buf.read().strip().split('\n')
-            _cache['scan_count'] = _cache.get('scan_count', 0) + 1
-            _cache['scan_log'] = _log_lines[-150:]  # keep last 150 lines
+            _log(lines, 'ERROR: ' + str(e))
             _cache['ts'] = 'Error: ' + str(e)
+
         finally:
-            sys.stdout = _orig_stdout
-            _log_buf.seek(0)
-            _log_lines = _log_buf.read().strip().split('\n')
-            if any(l.strip() for l in _log_lines):
-                _cache['scan_count'] = _cache.get('scan_count', 0) + 1
-                _cache['scan_log'] = _log_lines[-150:]
+            _cache['scan_count'] = _cache.get('scan_count', 0) + 1
+            _cache['scan_log'] = lines[-150:]
+
         time.sleep(1800)
 
-# Safe startup - catch any thread/import errors so Flask still serves health checks
 try:
     bot.start()
 except Exception as _e:
@@ -323,23 +311,21 @@ def index():
         current_balance = trades[0].get('balance_after', 10000)
     else:
         current_balance = 10000
-    return render_template_string(HTML, results=_cache['results'], trades=trades, summary=_cache['summary'], current_balance='{:,.2f}'.format(current_balance))
-
+    return render_template_string(HTML, results=_cache['results'], trades=trades,
+                                  summary=_cache['summary'],
+                                  current_balance='{:,.2f}'.format(current_balance))
 
 @app.route('/health')
 def health():
     return 'ok'
 
-
 @app.route('/api/status')
 def api_status():
-    from flask import jsonify
     return jsonify({'github': _cache.get('github_scores', []), 'signals': len(_cache['results']), 'trades': len(_cache['trades'])})
 
 @app.route('/api/prices')
 def api_prices():
-    from flask import jsonify
-    tokens = ['BTCUSDT','ETHUSDT','OPUSDT','LINKUSDT','ARBUSDT','STRKUSDT']
+    tokens = ['BTCUSDT', 'ETHUSDT', 'OPUSDT', 'LINKUSDT', 'ARBUSDT', 'STRKUSDT']
     cached = _cache.get('prices', {})
     if cached:
         return jsonify(cached)
@@ -347,11 +333,13 @@ def api_prices():
     for t in tokens:
         try:
             r = requests.get('https://api.bitget.com/api/v2/spot/market/tickers',
-                params={'symbol':t}, timeout=10)
+                params={'symbol': t}, timeout=10)
             if r.status_code == 200:
                 d = r.json().get('data', [])
-                if d: prices[t.replace('USDT','')] = d[0]['lastPr']
-        except: pass
+                if d:
+                    prices[t.replace('USDT', '')] = d[0]['lastPr']
+        except:
+            pass
     return jsonify(prices)
 
 @app.route('/api/signals')
@@ -362,7 +350,6 @@ def api_signals():
 
 @app.route('/api/logs')
 def api_logs():
-    from flask import jsonify
     return jsonify({
         'log': _cache.get('scan_log', []),
         'scan_count': _cache.get('scan_count', 0),
