@@ -1,5 +1,4 @@
 import os, json, requests, time as _time
-from github_logger import push_trade
 from datetime import datetime, timezone
 
 BASE_URL = 'https://api.bitget.com'
@@ -49,7 +48,7 @@ def get_price(symbol):
         pass
     return None
 
-def execute_trade(token, action, size_pct, conviction, reason):
+def execute_trade(token, action, size_pct, conviction, reason, running_balance=None):
     now = _time.time()
     _last_traded = _load_cooldown()
     if token in _last_traded and now - _last_traded[token] < 1800:
@@ -63,12 +62,16 @@ def execute_trade(token, action, size_pct, conviction, reason):
     if not price:
         print('  Could not get price for ' + token)
         return None
-    current_balance = get_current_balance()
+
+    current_balance = running_balance if running_balance is not None else get_current_balance()
     if current_balance < 500:
         current_balance = 10000
         print('Portfolio reset to $10,000')
+
     usd_amount = current_balance * (size_pct / 100)
     quantity = usd_amount / price
+    balance_after = round(current_balance + usd_amount if action == 'SELL' else current_balance - usd_amount, 2)
+
     trade = {
         'timestamp': datetime.now(timezone.utc).isoformat(),
         'token': token,
@@ -80,23 +83,31 @@ def execute_trade(token, action, size_pct, conviction, reason):
         'reason': reason,
         'mode': 'SIM',
         'balance_before': round(current_balance, 2),
-        'balance_after': round(current_balance + usd_amount if action == 'SELL' else current_balance - usd_amount, 2),
+        'balance_after': balance_after,
         'balance_change': round(usd_amount if action == 'SELL' else -usd_amount, 2)
     }
     trade_log.append(trade)
     print('  [SIM] ' + action + ' ' + token + ' @ $' + str(price))
-    print('        Amount: $' + str(usd_amount) + ' | Qty: ' + str(round(quantity, 6)))
+    print('        Amount: $' + str(round(usd_amount, 2)) + ' | Qty: ' + str(round(quantity, 6)))
     return trade
 
 def run(conviction_results):
     print('EXECUTOR - Processing signals...')
     trades = []
+    # Track running balance in memory so each trade within a cycle
+    # uses the correct balance after the previous trade — not stale file data
+    running_balance = get_current_balance()
+
     for r in conviction_results:
         if r['conviction'] >= 2:
             trade = execute_trade(r['token'], r['action'],
-                                  r['size_pct'], r['conviction'], r['reason'])
+                                  r['size_pct'], r['conviction'], r['reason'],
+                                  running_balance=running_balance)
             if trade:
                 trades.append(trade)
+                # Update running balance for next trade in this cycle
+                running_balance = trade['balance_after']
+
     if trades:
         existing = []
         if os.path.exists('trade_log.json'):
@@ -110,9 +121,10 @@ def run(conviction_results):
             json.dump(all_trades, f, indent=2)
         print(str(len(trades)) + ' trades logged to trade_log.json')
         try:
-            from github_logger import push_trade
+            from github_logger import push_trade, push_trade_log
             for t in trades:
                 push_trade(t)
+            push_trade_log(all_trades)
         except Exception as e:
             print('GitHub push error: ' + str(e))
     return trades
