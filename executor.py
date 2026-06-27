@@ -1,25 +1,41 @@
-import os, json, requests
+import os, json, requests, time as _time
 from github_logger import push_trade
 from datetime import datetime, timezone
 
 BASE_URL = 'https://api.bitget.com'
 SIM_PORTFOLIO = 10000
+COOLDOWN_FILE = 'cooldown.json'
 
 def get_current_balance():
-    import json, os
-    if not os.path.exists("trade_log.json"):
+    if not os.path.exists('trade_log.json'):
         return SIM_PORTFOLIO
     try:
-        with open("trade_log.json") as f:
+        with open('trade_log.json') as f:
             trades = json.load(f)
         if not trades:
             return SIM_PORTFOLIO
-        last = sorted(trades, key=lambda x: x.get("timestamp",""))[-1]
-        return last.get("balance_after", SIM_PORTFOLIO)
+        last = sorted(trades, key=lambda x: x.get('timestamp', ''))[-1]
+        return last.get('balance_after', SIM_PORTFOLIO)
     except:
         return SIM_PORTFOLIO
+
 trade_log = []
-_last_traded = {}  # token -> timestamp of last trade (cooldown guard)
+
+def _load_cooldown():
+    try:
+        if os.path.exists(COOLDOWN_FILE):
+            with open(COOLDOWN_FILE) as f:
+                return json.load(f)
+    except:
+        pass
+    return {}
+
+def _save_cooldown(cd):
+    try:
+        with open(COOLDOWN_FILE, 'w') as f:
+            json.dump(cd, f)
+    except:
+        pass
 
 def get_price(symbol):
     try:
@@ -34,14 +50,15 @@ def get_price(symbol):
     return None
 
 def execute_trade(token, action, size_pct, conviction, reason):
-    # Cooldown: skip if same token was traded within the last 30 minutes
-    import time as _time
     now = _time.time()
+    _last_traded = _load_cooldown()
     if token in _last_traded and now - _last_traded[token] < 1800:
         mins_ago = int((now - _last_traded[token]) / 60)
         print(f'  Skipping {token} - traded {mins_ago}m ago (cooldown 30m)')
         return None
     _last_traded[token] = now
+    _save_cooldown(_last_traded)
+
     price = get_price(token)
     if not price:
         print('  Could not get price for ' + token)
@@ -81,7 +98,6 @@ def run(conviction_results):
             if trade:
                 trades.append(trade)
     if trades:
-        # Load existing history first so we don't wipe it on restart
         existing = []
         if os.path.exists('trade_log.json'):
             try:
