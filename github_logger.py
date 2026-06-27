@@ -36,9 +36,6 @@ def push_trade(trade):
         print('No GITHUB_TOKEN - skipping push')
         return
     try:
-        # Only update paper_trading_log.md (required for hackathon evidence)
-        # trade_log.json is NOT pushed to GitHub - it was triggering a rebuild on
-        # every trade via Render auto-deploy, burning through free pipeline minutes
         current, sha = _get_file('paper_trading_log.md')
         row = (
             '| ' + str(trade.get('timestamp', ''))[:19].replace('T', ' ') +
@@ -66,9 +63,20 @@ def push_trade(trade):
         ok = _put_file('paper_trading_log.md', new_md, sha,
                        'Trade: ' + str(trade.get('token')) + ' ' + str(trade.get('action')))
         print('paper_trading_log.md pushed:', ok)
-
     except Exception as e:
         print('push_trade error: ' + str(e))
+
+def push_trade_log(trades):
+    """Persist trade_log.json to GitHub so state survives Render restarts."""
+    if not GITHUB_TOKEN:
+        return
+    try:
+        _, sha = _get_file('trade_log.json')
+        content = json.dumps(trades, indent=2)
+        ok = _put_file('trade_log.json', content, sha, 'chore: sync trade_log.json')
+        print('trade_log.json pushed to GitHub:', ok)
+    except Exception as e:
+        print('push_trade_log error: ' + str(e))
 
 def load_from_github():
     if not GITHUB_TOKEN:
@@ -83,5 +91,7 @@ def load_from_github():
             with open('trade_log.json', 'w') as f:
                 json.dump(trades, f, indent=2)
             print('Loaded ' + str(len(trades)) + ' trades from GitHub')
+        else:
+            print('trade_log.json not on GitHub yet — starting fresh')
     except Exception as e:
         print('load_from_github error: ' + str(e))
