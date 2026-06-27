@@ -44,17 +44,17 @@ h2{color:#ffffff;font-size:.95em;margin:32px 0 12px;text-transform:uppercase;let
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
     <div style="color:#8b949e;font-size:.75em">PORTFOLIO</div>
-    <div style="color:#f0883e;font-size:1.4em;font-weight:bold">${{ current_balance }}</div>
+    <div style="color:#f0883e;font-size:1.4em;font-weight:bold" id="stat-balance">${{ current_balance }}</div>
     <div style="color:#8b949e;font-size:.7em">SIM</div>
   </div>
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
     <div style="color:#8b949e;font-size:.75em">TRADES</div>
-    <div style="color:#3fb950;font-size:1.4em;font-weight:bold" id="trade-count">{{ trades|length }}</div>
+    <div style="color:#3fb950;font-size:1.4em;font-weight:bold" id="stat-trades">{{ trades|length }}</div>
     <div style="color:#8b949e;font-size:.7em">EXECUTED</div>
   </div>
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
     <div style="color:#8b949e;font-size:.75em">SIGNALS</div>
-    <div style="color:#58a6ff;font-size:1.4em;font-weight:bold">{{ results|length }}</div>
+    <div style="color:#58a6ff;font-size:1.4em;font-weight:bold" id="stat-signals">{{ results|length }}</div>
     <div style="color:#8b949e;font-size:.7em">ACTIVE NOW</div>
   </div>
   <div class="card" style="flex:1;min-width:120px;text-align:center;padding:12px">
@@ -129,6 +129,9 @@ function loadMore() {
 <script>
 function updateData() {
   fetch('/api/status').then(r=>r.json()).then(d=>{
+    if (d.balance) document.getElementById('stat-balance').textContent = '$' + d.balance;
+    if (d.trade_count !== undefined) document.getElementById('stat-trades').textContent = d.trade_count;
+    if (d.signals !== undefined) document.getElementById('stat-signals').textContent = d.signals;
     let h = '';
     d.github.forEach(p=>{
       let w = p.score>0?(p.score/3)*100:8;
@@ -321,7 +324,14 @@ def health():
 
 @app.route('/api/status')
 def api_status():
-    return jsonify({'github': _cache.get('github_scores', []), 'signals': len(_cache['results']), 'trades': len(_cache['trades'])})
+    trades = _cache.get('trades', [])
+    balance = trades[0].get('balance_after', 10000) if trades else 10000
+    return jsonify({
+        'github': _cache.get('github_scores', []),
+        'signals': len(_cache['results']),
+        'trade_count': len(trades),
+        'balance': '{:,.2f}'.format(balance)
+    })
 
 @app.route('/api/prices')
 def api_prices():
