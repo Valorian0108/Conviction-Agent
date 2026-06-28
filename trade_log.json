@@ -15750,7 +15750,7 @@
     "balance_change": -30.56
   },
   {
-    "timestamp": "2026-06-28T11:52:06.049134+00:00",
+    "timestamp": "2026-06-28T11:52:48.496534+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
     "price": 0.0745,
@@ -15764,7 +15764,7 @@
     "balance_change": -29.34
   },
   {
-    "timestamp": "2026-06-28T11:52:06.246407+00:00",
+    "timestamp": "2026-06-28T11:52:48.698251+00:00",
     "token": "ENSUSDT",
     "action": "BUY",
     "price": 4.162,
