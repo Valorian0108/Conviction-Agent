@@ -14742,7 +14742,7 @@
     "balance_change": -28.16
   },
   {
-    "timestamp": "2026-06-28T08:36:43.050521+00:00",
+    "timestamp": "2026-06-28T08:37:27.252113+00:00",
     "token": "ARBUSDT",
     "action": "BUY",
     "price": 0.0738,
@@ -14756,12 +14756,12 @@
     "balance_change": -27.04
   },
   {
-    "timestamp": "2026-06-28T08:36:43.254163+00:00",
+    "timestamp": "2026-06-28T08:37:27.462171+00:00",
     "token": "ENSUSDT",
     "action": "BUY",
-    "price": 4.134,
+    "price": 4.137,
     "usd_amount": 25.96,
-    "quantity": 6.278665,
+    "quantity": 6.274112,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
