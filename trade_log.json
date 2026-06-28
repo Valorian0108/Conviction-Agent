@@ -17316,5 +17316,19 @@
     "balance_before": 3321.42,
     "balance_after": 3188.56,
     "balance_change": -132.86
+  },
+  {
+    "timestamp": "2026-06-28T17:03:35.340373+00:00",
+    "token": "ARBUSDT",
+    "action": "BUY",
+    "price": 0.0736,
+    "usd_amount": 127.54,
+    "quantity": 1732.913043,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 3188.56,
+    "balance_after": 3061.02,
+    "balance_change": -127.54
   }
 ]
