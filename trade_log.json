@@ -21978,5 +21978,19 @@
     "balance_before": 733.44,
     "balance_after": 704.1,
     "balance_change": -29.34
+  },
+  {
+    "timestamp": "2026-07-03T12:47:57.871360+00:00",
+    "token": "ZKUSDT",
+    "action": "BUY",
+    "price": 0.01079,
+    "usd_amount": 28.16,
+    "quantity": 2610.194625,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 704.1,
+    "balance_after": 675.94,
+    "balance_change": -28.16
   }
 ]
