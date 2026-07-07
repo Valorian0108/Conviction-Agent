@@ -22106,17 +22106,31 @@
     "balance_change": -20.32
   },
   {
-    "timestamp": "2026-07-07T15:10:26.854756+00:00",
-    "token": "ZKUSDT",
+    "timestamp": "2026-07-07T16:13:32.316869+00:00",
+    "token": "OPUSDT",
     "action": "BUY",
-    "price": 0.0112,
+    "price": 0.1042,
     "usd_amount": 400.0,
-    "quantity": 35714.285714,
+    "quantity": 3838.771593,
     "conviction": 2,
     "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 10000,
     "balance_after": 9600.0,
     "balance_change": -400.0
+  },
+  {
+    "timestamp": "2026-07-07T16:13:32.537586+00:00",
+    "token": "ZKUSDT",
+    "action": "BUY",
+    "price": 0.01118,
+    "usd_amount": 384.0,
+    "quantity": 34347.048301,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 9600.0,
+    "balance_after": 9216.0,
+    "balance_change": -384.0
   }
 ]
