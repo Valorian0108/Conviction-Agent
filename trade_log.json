@@ -22540,17 +22540,45 @@
     "balance_change": -117.54
   },
   {
-    "timestamp": "2026-07-07T19:15:49.891073+00:00",
+    "timestamp": "2026-07-07T19:16:42.774089+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1027,
-    "usd_amount": 141.05,
-    "quantity": 1373.437196,
-    "conviction": 3,
-    "reason": "Developer activity is notably elevated (9 commits, 2.7x normal) with strong contributor diversity (8 unique devs), indicating active development cycle and potential for near-term positive catalysts.",
+    "usd_amount": 112.84,
+    "quantity": 1098.749757,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 2821.04,
-    "balance_after": 2679.99,
-    "balance_change": -141.05
+    "balance_after": 2708.2,
+    "balance_change": -112.84
+  },
+  {
+    "timestamp": "2026-07-07T19:16:43.026195+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 7.88,
+    "usd_amount": 108.33,
+    "quantity": 13.747208,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 2708.2,
+    "balance_after": 2599.87,
+    "balance_change": -108.33
+  },
+  {
+    "timestamp": "2026-07-07T19:16:43.241166+00:00",
+    "token": "ZKUSDT",
+    "action": "BUY",
+    "price": 0.01075,
+    "usd_amount": 103.99,
+    "quantity": 9673.934884,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 2599.87,
+    "balance_after": 2495.88,
+    "balance_change": -103.99
   }
 ]
