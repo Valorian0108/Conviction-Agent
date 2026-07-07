@@ -22498,17 +22498,45 @@
     "balance_change": -132.86
   },
   {
-    "timestamp": "2026-07-07T19:11:38.610946+00:00",
+    "timestamp": "2026-07-07T19:12:28.488634+00:00",
     "token": "OPUSDT",
     "action": "BUY",
     "price": 0.1027,
-    "usd_amount": 159.43,
-    "quantity": 1552.366115,
-    "conviction": 3,
-    "reason": "Optimism developer activity shows a 2.7x spike with 8 active contributors, indicating strong near-term development momentum and healthy ecosystem participation.",
+    "usd_amount": 127.54,
+    "quantity": 1241.892892,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 3188.56,
-    "balance_after": 3029.13,
-    "balance_change": -159.43
+    "balance_after": 3061.02,
+    "balance_change": -127.54
+  },
+  {
+    "timestamp": "2026-07-07T19:12:28.691968+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 7.882,
+    "usd_amount": 122.44,
+    "quantity": 15.53423,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 3061.02,
+    "balance_after": 2938.58,
+    "balance_change": -122.44
+  },
+  {
+    "timestamp": "2026-07-07T19:12:28.894555+00:00",
+    "token": "ZKUSDT",
+    "action": "BUY",
+    "price": 0.01075,
+    "usd_amount": 117.54,
+    "quantity": 10934.251163,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 2938.58,
+    "balance_after": 2821.04,
+    "balance_change": -117.54
   }
 ]
