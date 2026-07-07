@@ -22624,17 +22624,45 @@
     "balance_change": -92.01
   },
   {
-    "timestamp": "2026-07-07T19:28:10.725870+00:00",
+    "timestamp": "2026-07-07T19:28:58.830104+00:00",
     "token": "OPUSDT",
     "action": "BUY",
-    "price": 0.1024,
-    "usd_amount": 110.41,
-    "quantity": 1078.217773,
+    "price": 0.1028,
+    "usd_amount": 132.49,
+    "quantity": 1288.826848,
     "conviction": 3,
-    "reason": "Optimism shows peak developer activity (3/3 score) with 3.0x normal commits and 9 active contributors, signaling accelerating development pace and strong ecosystem momentum. Concurrent infra dev activity and active L2 governance support positive fundamental bias.",
+    "reason": "Conviction 3/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 2208.19,
-    "balance_after": 2097.78,
-    "balance_change": -110.41
+    "balance_after": 2075.7,
+    "balance_change": -132.49
+  },
+  {
+    "timestamp": "2026-07-07T19:28:59.041856+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 7.904,
+    "usd_amount": 83.03,
+    "quantity": 10.504555,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 2075.7,
+    "balance_after": 1992.67,
+    "balance_change": -83.03
+  },
+  {
+    "timestamp": "2026-07-07T19:28:59.260686+00:00",
+    "token": "ZKUSDT",
+    "action": "BUY",
+    "price": 0.01074,
+    "usd_amount": 79.71,
+    "quantity": 7421.489758,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 1992.67,
+    "balance_after": 1912.96,
+    "balance_change": -79.71
   }
 ]
