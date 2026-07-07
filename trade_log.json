@@ -22078,17 +22078,17 @@
     "balance_change": -22.05
   },
   {
-    "timestamp": "2026-07-07T13:30:47.785188+00:00",
+    "timestamp": "2026-07-07T13:32:23.138825+00:00",
     "token": "ZKUSDT",
     "action": "BUY",
-    "price": 0.01117,
-    "usd_amount": 15.87,
-    "quantity": 1421.011638,
+    "price": 0.01116,
+    "usd_amount": 21.16,
+    "quantity": 1896.379928,
     "conviction": 2,
-    "reason": "Significant developer activity spike (3.8x normal commits) suggests imminent protocol updates or mainnet catalysts. Other signals show baseline developer momentum and standard governance activity without clear short-term price drivers.",
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
     "mode": "SIM",
     "balance_before": 529.09,
-    "balance_after": 513.22,
-    "balance_change": -15.87
+    "balance_after": 507.93,
+    "balance_change": -21.16
   }
 ]
