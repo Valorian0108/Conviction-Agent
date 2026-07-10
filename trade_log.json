@@ -25730,5 +25730,19 @@
     "balance_before": 667.41,
     "balance_after": 640.71,
     "balance_change": -26.7
+  },
+  {
+    "timestamp": "2026-07-10T15:55:32.909645+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1048,
+    "usd_amount": 25.63,
+    "quantity": 244.545802,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 640.71,
+    "balance_after": 615.08,
+    "balance_change": -25.63
   }
 ]
