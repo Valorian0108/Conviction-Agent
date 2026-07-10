@@ -25618,5 +25618,33 @@
     "balance_before": 944.75,
     "balance_after": 906.96,
     "balance_change": -37.79
+  },
+  {
+    "timestamp": "2026-07-10T10:17:09.294786+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1075,
+    "usd_amount": 36.28,
+    "quantity": 337.473488,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 906.96,
+    "balance_after": 870.68,
+    "balance_change": -36.28
+  },
+  {
+    "timestamp": "2026-07-10T10:47:57.722226+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.1077,
+    "usd_amount": 43.53,
+    "quantity": 404.215413,
+    "conviction": 3,
+    "reason": "Developer activity shows sustained momentum with commits 80% above baseline and 9 active contributors, signaling healthy protocol progression. Neutral governance status eliminates near-term proposal volatility, creating a stable environment for a cautious long entry.",
+    "mode": "SIM",
+    "balance_before": 870.68,
+    "balance_after": 827.15,
+    "balance_change": -43.53
   }
 ]
