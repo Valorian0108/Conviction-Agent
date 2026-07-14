@@ -27214,5 +27214,33 @@
     "balance_before": 1789.69,
     "balance_after": 1682.31,
     "balance_change": -107.38
+  },
+  {
+    "timestamp": "2026-07-14T11:25:40.021800+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0994,
+    "usd_amount": 84.12,
+    "quantity": 846.232394,
+    "conviction": 3,
+    "reason": "Exceptional developer momentum with 3.6x normal commits and high contributor diversity signals active protocol upgrades and strong near-term fundamental catalysts.",
+    "mode": "SIM",
+    "balance_before": 1682.31,
+    "balance_after": 1598.19,
+    "balance_change": -84.12
+  },
+  {
+    "timestamp": "2026-07-14T11:25:40.241025+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 7.977,
+    "usd_amount": 79.91,
+    "quantity": 10.017488,
+    "conviction": 3,
+    "reason": "Strongest developer signal across assets with 13 commits (3.9x normal) and 11 unique contributors indicates aggressive ecosystem expansion and robust network health.",
+    "mode": "SIM",
+    "balance_before": 1598.19,
+    "balance_after": 1518.28,
+    "balance_change": -79.91
   }
 ]
