@@ -35320,5 +35320,47 @@
     "balance_before": 655.28,
     "balance_after": 629.07,
     "balance_change": -26.21
+  },
+  {
+    "timestamp": "2026-07-21T13:42:06.906150+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0966,
+    "usd_amount": 37.74,
+    "quantity": 390.726708,
+    "conviction": 3,
+    "reason": "Conviction 3/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 629.07,
+    "balance_after": 591.33,
+    "balance_change": -37.74
+  },
+  {
+    "timestamp": "2026-07-21T13:42:07.102944+00:00",
+    "token": "LINKUSDT",
+    "action": "BUY",
+    "price": 8.7,
+    "usd_amount": 35.48,
+    "quantity": 4.078138,
+    "conviction": 3,
+    "reason": "Conviction 3/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 591.33,
+    "balance_after": 555.85,
+    "balance_change": -35.48
+  },
+  {
+    "timestamp": "2026-07-21T13:42:07.317034+00:00",
+    "token": "STRKUSDT",
+    "action": "BUY",
+    "price": 0.02943,
+    "usd_amount": 22.23,
+    "quantity": 755.487598,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 555.85,
+    "balance_after": 533.62,
+    "balance_change": -22.23
   }
 ]
