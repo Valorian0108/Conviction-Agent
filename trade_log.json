@@ -37042,5 +37042,33 @@
     "balance_before": 6773.11,
     "balance_after": 6502.19,
     "balance_change": -270.92
+  },
+  {
+    "timestamp": "2026-07-22T22:35:10.757687+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0978,
+    "usd_amount": 390.13,
+    "quantity": 3989.07362,
+    "conviction": 3,
+    "reason": "Conviction 3/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 6502.19,
+    "balance_after": 6112.06,
+    "balance_change": -390.13
+  },
+  {
+    "timestamp": "2026-07-22T22:35:10.976406+00:00",
+    "token": "ETHUSDT",
+    "action": "BUY",
+    "price": 1932.64,
+    "usd_amount": 244.48,
+    "quantity": 0.126502,
+    "conviction": 2,
+    "reason": "Conviction 2/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 6112.06,
+    "balance_after": 5867.58,
+    "balance_change": -244.48
   }
 ]
