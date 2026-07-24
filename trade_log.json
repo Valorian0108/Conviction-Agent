@@ -39380,5 +39380,19 @@
     "balance_before": 684.93,
     "balance_after": 650.68,
     "balance_change": -34.25
+  },
+  {
+    "timestamp": "2026-07-24T21:15:36.238048+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0922,
+    "usd_amount": 32.53,
+    "quantity": 352.863341,
+    "conviction": 3,
+    "reason": "Strong developer activity spike (3/3 score, 4.8x normal commits, 10 active contributors) indicates high project momentum and healthy engineering engagement. Neutral governance backdrop reduces event-driven volatility, supporting a risk-managed entry.",
+    "mode": "SIM",
+    "balance_before": 650.68,
+    "balance_after": 618.15,
+    "balance_change": -32.53
   }
 ]
