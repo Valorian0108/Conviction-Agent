@@ -39884,5 +39884,19 @@
     "balance_before": 2484.18,
     "balance_after": 2384.81,
     "balance_change": -99.37
+  },
+  {
+    "timestamp": "2026-07-25T15:42:36.324838+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.0927,
+    "usd_amount": 119.24,
+    "quantity": 1286.305286,
+    "conviction": 3,
+    "reason": "Dev activity shows healthy maintenance momentum (1.8x normal commit rate, 9 active contributors) indicating sustained project development. Neutral governance backdrop reduces event-driven volatility risk, favoring fundamental accumulation.",
+    "mode": "SIM",
+    "balance_before": 2384.81,
+    "balance_after": 2265.57,
+    "balance_change": -119.24
   }
 ]
