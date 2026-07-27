@@ -40024,5 +40024,19 @@
     "balance_before": 1600.3,
     "balance_after": 1504.28,
     "balance_change": -96.02
+  },
+  {
+    "timestamp": "2026-07-27T14:36:56.317215+00:00",
+    "token": "STRKUSDT",
+    "action": "BUY",
+    "price": 0.03081,
+    "usd_amount": 90.26,
+    "quantity": 2929.46446,
+    "conviction": 3,
+    "reason": "Conviction 3/5 - dev and governance signals aligned",
+    "mode": "SIM",
+    "balance_before": 1504.28,
+    "balance_after": 1414.02,
+    "balance_change": -90.26
   }
 ]
