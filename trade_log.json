@@ -41872,5 +41872,19 @@
     "balance_before": 1048.34,
     "balance_after": 1006.41,
     "balance_change": -41.93
+  },
+  {
+    "timestamp": "2026-07-28T17:52:18.917800+00:00",
+    "token": "OPUSDT",
+    "action": "BUY",
+    "price": 0.089,
+    "usd_amount": 50.32,
+    "quantity": 565.398876,
+    "conviction": 3,
+    "reason": "Exceptional developer momentum with 19 commits (5.7x baseline) and 7 active contributors indicates robust protocol development and potential near-term upgrades. A perfect 3/3 dev score strongly supports a bullish fundamental thesis.",
+    "mode": "SIM",
+    "balance_before": 1006.41,
+    "balance_after": 956.09,
+    "balance_change": -50.32
   }
 ]
